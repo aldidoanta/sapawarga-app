@@ -23,5 +23,8 @@ module.exports = {
     'lcov',
     'text-summary'
   ],
-  testURL: 'http://localhost/'
+  testURL: 'http://localhost/',
+  "snapshotSerializers": [
+    "<rootDir>/node_modules/jest-serializer-vue"
+  ]
 }
