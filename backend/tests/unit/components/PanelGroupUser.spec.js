@@ -2,14 +2,15 @@ import { mount, createLocalVue } from "@vue/test-utils";
 import PanelGroup from "@/views/user/components/PanelGroup";
 import totalUser from "../fixtures/totalUser";
 import ElementUI from "element-ui";
-//import SVG from '@/components/SvgIcon';
-// src/components/SvgIcon/index.vue
 import SvgIcon from "@/components/SvgIcon"; // svg组件
+import Vuex from 'vuex';
+// import initialState from '@/store'
 
 // register globally
 
 const localVue = createLocalVue();
-localVue.use(ElementUI);
+localVue.use(ElementUI, Vuex);
+// localVue.use(Vuex)
 localVue.component("svg-icon", SvgIcon);
 
 const totalAllUser = totalUser.data.items[0].value;
@@ -21,6 +22,7 @@ const totalUserRw = totalUser.data.items[5].value;
 
 describe("PanelGroup User", () => {
   let props;
+  let state;
   const selectorAll = ".total-all";
   const selectorUserProvince = ".total-province";
   const selectorUserKabKota = ".total-kota";
@@ -31,7 +33,10 @@ describe("PanelGroup User", () => {
   const build = () => {
     const wrapper = mount(PanelGroup, {
       propsData: props,
-      localVue
+      localVue,
+      store: new Vuex.Store({
+        state,
+      })
     });
     return {
       wrapper,
@@ -93,6 +98,11 @@ describe("PanelGroup User", () => {
       totalUserKel: totalUserKel,
       totalUserRw: totalUserRw,
       duration: 1
+    };
+    state = {
+      user: {
+        roles: ['admin']
+      }
     };
   });
 
