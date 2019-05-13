@@ -8,6 +8,7 @@ variables:
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 before_script:
+  - echo $CONTAINER_TEST_IMAGE
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
   - pip install docker-compose
@@ -21,10 +22,15 @@ build_api:
   script:
     - docker-compose -f docker-compose.test-api.yml build
     - docker images
-    - sleep 30
+    - docker tag registry.gitlab.com/jdsteam/sapawarga-nginx:1.0 $CONTAINER_TEST_IMAGE
+    - docker images
+    - docker-compose -f docker-compose.test-api.yml push
 
 test_api:
   stage: test
   script:
+    - docker-compose -f docker-compose.test-api.yml pull
+    - docker-compose -f docker-compose.test-api.yml up -d
+    - sleep 30
     - docker-compose -f docker-compose.test-api.yml exec -T api php yii seeder
     - docker-compose -f docker-compose.test-api.yml exec -T api composer run test
