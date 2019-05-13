@@ -1,36 +1,16 @@
 stages:
   - test
 
-api_lint:
-  stage: test
-  image: javanlabs/php-tools:7.2
-  before_script:
-    - cd api/
-    - composer install --no-scripts --no-progress --no-suggest --ignore-platform-reqs
-  script:
-    - composer sniff
-
-admin_lint:
-  stage: test
-  image: node:10
-  before_script:
-    - cd backend/
-    - npm install
-  script:
-    - npm run lint
-    - npm run test:unit
-
 api_test:
   stage: test
   image: docker:latest
   services:
     - docker:dind
+  variables:
+    CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
   before_script:
-    - echo $CI_REGISTRY_USER
-    - echo $CI_REGISTRY_PASSWORD
-    - echo $CI_REGISTRY
-    - echo $CI_REGISTRY_IMAGE
-    - echo $CI_COMMIT_REF_SLUG
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
     - pip install docker-compose
   script:
