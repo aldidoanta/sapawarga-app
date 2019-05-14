@@ -15,9 +15,13 @@ before_script:
 stages:
   - build
   - test
+  - release
 
 build_api:
   stage: build
+  only:
+    changes:
+      - api/**/*
   script:
     - docker-compose -f docker-compose.test-api.yml build
     - docker images
@@ -25,9 +29,28 @@ build_api:
 
 test_api:
   stage: test
+  only:
+    changes:
+      - api/**/*
   script:
     - docker-compose -f docker-compose.test-api.yml pull
+    - docker ps
     - docker-compose -f docker-compose.test-api.yml up -d
     - sleep 30
+    - docker-compose -f docker-compose.test-api.yml exec -T api composer sniff
     - docker-compose -f docker-compose.test-api.yml exec -T api php yii seeder
     - docker-compose -f docker-compose.test-api.yml exec -T api composer run test
+
+release_api:
+  stage: release
+  only:
+    changes:
+      - api/**/*
+  only: 
+    - master
+  script:
+    - docker-compose -f docker-compose.test-api.yml pull
+    - docker ps
+    - docker tag registry.gitlab.com/jdsteam/sapa-warga/sapawarga-app/sapawarga-api:${IMAGETAG} registry.gitlab.com/jdsteam/sapa-warga/sapawarga-app/sapawarga-api:latest
+    - docker push registry.gitlab.com/jdsteam/sapa-warga/sapawarga-app/sapawarga-api:latest
+  
