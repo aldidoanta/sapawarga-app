@@ -22,6 +22,7 @@ build_api:
   only:
     changes:
       - api/**/*
+      - *.yml
   script:
     - docker-compose -f docker-compose.test-api.yml build
     - docker images
@@ -32,6 +33,7 @@ test_api:
   only:
     changes:
       - api/**/*
+      - *.yml
   script:
     - docker-compose -f docker-compose.test-api.yml pull
     - docker ps
@@ -46,6 +48,7 @@ release_api:
   only:
     changes:
       - api/**/*
+      - *.yml
   only: 
     - master
   script:
