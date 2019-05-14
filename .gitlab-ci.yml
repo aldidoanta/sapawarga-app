@@ -19,6 +19,8 @@ stages:
 
 build_api:
   stage: build
+  variables:
+    IMAGETAG: $CI_COMMIT_REF_SLUG
   only:
     changes:
       - api/**/*
@@ -30,6 +32,8 @@ build_api:
 
 test_api:
   stage: test
+  variables:
+    IMAGETAG: $CI_COMMIT_REF_SLUG
   only:
     changes:
       - api/**/*
@@ -45,6 +49,8 @@ test_api:
 
 release_api:
   stage: release
+  ariables:
+    IMAGETAG: $CI_COMMIT_REF_SLUG
   only:
     changes:
       - api/**/*
