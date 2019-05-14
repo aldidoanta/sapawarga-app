@@ -53,115 +53,16 @@ class SeederController extends Controller
     {
         Yii::$app->db->createCommand('TRUNCATE categories')->execute();
 
-        $typePhonebook = 'phonebook';
-        Yii::$app->db->createCommand()->batchInsert('categories', [
-            'type',
-            'name',
-            'status',
-            'created_at',
-            'updated_at',
-        ], [
-            [
-                $typePhonebook,
-                'Kesehatan',
-                10,
-                time(),
-                time(),
-            ],
-            [
-                $typePhonebook,
-                'Ekonomi',
-                10,
-                time(),
-                time(),
-            ],
-            [
-                $typePhonebook,
-                'Keamanan',
-                10,
-                time(),
-                time(),
-            ],
-            [
-                $typePhonebook,
-                'Transportasi',
-                10,
-                time(),
-                time(),
-            ],
-        ])->execute();
-
-        $typeBroadcast = 'broadcast';
-        Yii::$app->db->createCommand()->batchInsert('categories', [
-            'type',
-            'name',
-            'status',
-            'created_at',
-            'updated_at',
-        ], [
-            [
-                $typeBroadcast,
-                'Sistem',
-                10,
-                time(),
-                time(),
-            ],
-            [
-                $typeBroadcast,
-                'Sosialisasi',
-                10,
-                time(),
-                time(),
-            ],
-            [
-                $typeBroadcast,
-                'Berita Hoax',
-                10,
-                time(),
-                time(),
-            ],
-        ])->execute();
+        $sql = file_get_contents(__DIR__ . '/../migrations/seeder/category.sql');
+        Yii::$app->db->createCommand($sql)->execute();
     }
 
     public function actionPhoneBook()
     {
         Yii::$app->db->createCommand('TRUNCATE phonebooks')->execute();
 
-        $seeder = new Seeder();
-        $generator = $seeder->getGeneratorConfigurator();
-        $faker = $generator->getFakerConfigurator();
-
-        $kabKota = [22, 23, 26];
-
-        $seeder->table('phonebooks')->columns([
-            'id',
-            'name' => $faker->company,
-            'description' => $faker->text,
-            'address' => $faker->address,
-            'phone_numbers' => new JsonExpression([
-                [
-                    'type' => 'phone',
-                    'phone_number' => '022-123456',
-                ],
-                [
-                    'type' => 'message',
-                    'phone_number' => '022-098763',
-                ],
-            ]),
-            'kabkota_id' => $faker->randomElement($kabKota),
-            'status' => PhoneBook::STATUS_ACTIVE,
-            'seq' => 1,
-            'latitude' => $faker->latitude('-6.148534', '-7.484602'),
-            'longitude' => $faker->longitude('106.022438', '108.680921'),
-            'cover_image_path' => $faker->optional()->imageUrl(800, 480, 'city'),
-            'category_id' => $faker->randomElement([1, 2, 3, 4]),
-            'created_at' => time(),
-            'updated_at' => time(),
-        ])->rowQuantity(500);
-
-        $seeder->refill();
-
-        $this->setRandomKecamatan();
+        $sql = file_get_contents(__DIR__ . '/../migrations/seeder/phonebook.sql');
+        Yii::$app->db->createCommand($sql)->execute();
 
         // Khusus Call Center
         Yii::$app->db->createCommand()->batchInsert('phonebooks', [
@@ -218,30 +119,8 @@ class SeederController extends Controller
     {
         Yii::$app->db->createCommand('TRUNCATE broadcasts')->execute();
 
-        $seeder = new Seeder();
-        $generator = $seeder->getGeneratorConfigurator();
-        $faker = $generator->getFakerConfigurator();
-
-        $author_id = [1, 2];
-        $category_id = [5, 6, 7];
-        $kabkota_id = [22, 23];
-
-        $seeder->table('broadcasts')->columns([
-            'id',
-            'author_id' => $faker->randomElement($author_id),
-            'category_id' => $faker->randomElement($category_id),
-            'title' => $faker->sentence,
-            'description' => $faker->text,
-            'kabkota_id' => $faker->optional()->randomElement($kabkota_id),
-            'kec_id' => null,
-            'kel_id' => null,
-            'rw' => null,
-            'status' => Broadcast::STATUS_ACTIVE,
-            'created_at' => time(),
-            'updated_at' => time(),
-        ])->rowQuantity(20);
-
-        $seeder->refill();
+        $sql = file_get_contents(__DIR__ . '/../migrations/seeder/broadcast.sql');
+        Yii::$app->db->createCommand($sql)->execute();
     }
 
     protected function setRandomKecamatan()
