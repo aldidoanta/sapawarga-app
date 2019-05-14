@@ -49,7 +49,7 @@ test_api:
 
 release_api:
   stage: release
-  ariables:
+  variables:
     IMAGETAG: $CI_COMMIT_REF_SLUG
   only:
     changes:
