@@ -42,7 +42,7 @@ test_api:
     - docker-compose -f docker-compose.test-api.yml pull
     - docker ps
     - docker-compose -f docker-compose.test-api.yml up -d
-    - sleep 30
+    - sleep 60
     - docker ps
     - docker-compose -f docker-compose.test-api.yml exec -T api composer sniff
     - docker-compose -f docker-compose.test-api.yml exec -T api php yii seeder
