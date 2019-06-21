@@ -8,7 +8,7 @@ const notificationRouter = {
   meta: {
     title: 'notification-manage',
     roles: ['admin'],
-    icon: 'email'
+    icon: 'message'
   },
   children: [
     {
