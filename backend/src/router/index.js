@@ -73,6 +73,8 @@ export const constantRoutes = [
     component: () => import('@/views/errorPage/401'),
     hidden: true
   },
+
+  // rute dashboard ini di matikan sementara, karena dashboard belum siap.
   /* {
     path: '',
     component: Layout,
@@ -91,6 +93,8 @@ export const constantRoutes = [
       }
     ]
   }, */
+
+  // dashboard sementara diganti jadi profile.
   {
     path: '',
     component: Layout,
