@@ -92,17 +92,19 @@ export const constantRoutes = [
     ]
   }, */
   {
-    path: '/',
+    path: '',
     component: Layout,
+    redirect: 'dashboard',
     children: [
       {
-        name: 'Profile',
-        path: '',
+        path: 'dashboard',
         component: () => import('@/views/profile/index'),
-        hidden: true,
+        name: 'Dashboard',
         meta: {
-          title: 'profile',
-          roles: ['admin']
+          title: 'dashboard',
+          icon: 'dashboard',
+          noCache: true,
+          affix: true
         }
       }
     ]
