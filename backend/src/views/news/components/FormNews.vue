@@ -193,7 +193,6 @@ export default {
         Object.assign(data, this.news)
 
         // call api
-
       } catch (e) {
         console.log(e)
       } finally {
