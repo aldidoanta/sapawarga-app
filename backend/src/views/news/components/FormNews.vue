@@ -21,7 +21,7 @@
           <el-form-item label="Sumber" prop="channel_id">
             <el-select v-model="news.channel_id" placeholder="Pilih Sumber">
               <el-option
-                v-for="item in options"
+                v-for="item in channelOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -139,7 +139,7 @@ export default {
         status: null,
         featured: null
       },
-      options: [
+      channelOptions: [
         {
           value: 1,
           label: 'Detik'
@@ -164,8 +164,14 @@ export default {
         }
       ],
       featuredOptions: [
+        // { value: 1, label: 'Berita Utama' },
+        // { value: 0, label: 'List' }
+      ],
+      kuy: [
         { value: 1, label: 'Berita Utama' },
-        { value: 0, label: 'List' }
+        { value: 0, label: 'List' },
+        { value: 2, label: 'List 2' },
+
       ],
       rules: {
         title: [
@@ -246,6 +252,8 @@ export default {
     if (this.isEdit) {
       const id = this.$route.params && this.$route.params.id
       this.fetchData(id)
+      this.setPriority()
+      this.getChannel()
     }
   },
   methods: {
@@ -307,6 +315,14 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    setPriority() {
+      // set featuredOption from api data
+      this.featuredOptions = this.kuy
+    },
+    getChannel() {
+      // set channel options from api data
+      this.channelOptions
     }
   }
 }
