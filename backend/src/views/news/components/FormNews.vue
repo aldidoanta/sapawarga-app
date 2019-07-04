@@ -170,7 +170,7 @@ export default {
       kuy: [
         { value: 1, label: 'Berita Utama' },
         { value: 0, label: 'List' },
-        { value: 2, label: 'List 2' },
+        { value: 2, label: 'List 2' }
 
       ],
       rules: {

@@ -127,11 +127,11 @@ export default {
     getList() {
       this.listLoading = true
 
-       const data = {}
+      const data = {}
 
-        Object.assign(data, this.listQuery)
+      Object.assign(data, this.listQuery)
 
-        data.source_date = moment(data.source_date).format('YYYY-MM-DD')
+      data.source_date = moment(data.source_date).format('YYYY-MM-DD')
 
       fetchList(data).then(response => {
         this.list = response.data.items

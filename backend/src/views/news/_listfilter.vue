@@ -42,13 +42,9 @@
 </template>
 
 <script>
-import InputFilterArea from "@/components/InputFilterArea";
-
-import checkPermission from "@/utils/permission";
+import checkPermission from '@/utils/permission'
 
 export default {
-  components: { InputFilterArea },
-
   props: {
     listQuery: {
       type: Object,
@@ -60,14 +56,14 @@ export default {
     checkPermission,
 
     submitSearch() {
-      this.$emit("submit-search");
+      this.$emit('submit-search')
     },
 
     resetFilter() {
-      this.$emit("reset-search");
+      this.$emit('reset-search')
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
