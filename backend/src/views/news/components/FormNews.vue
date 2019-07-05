@@ -317,12 +317,14 @@ export default {
       }
     },
     setPriority() {
-      // set featuredOption from api data
-      this.featuredOptions = this.kuy
+      fetchListPriorities().then(response => {
+        this.featuredOptions = response.data.items
+      })
     },
     getChannel() {
-      console.log('ini get channel')
-      this.channelOptions
+      fetchListChannel().then(response => {
+        this.channelOptions = response.data.items
+      })
     }
   }
 }
