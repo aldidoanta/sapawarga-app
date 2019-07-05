@@ -91,7 +91,7 @@
 <script>
 import AttachmentPhotoUpload from '@/components/AttachmentPhotoUpload'
 import { containsWhitespace, validUrl } from '@/utils/validate'
-import { create, update, fetchListChannel } from '@/api/news'
+import { create, update, fetchListChannel, fetchListPriorities } from '@/api/news'
 import newsApi from '@/api/news'
 import Tinymce from '@/components/Tinymce'
 import moment from 'moment'
