@@ -139,20 +139,8 @@ export default {
         status: null,
         featured: null
       },
-      channelOptions: [
-        {
-          value: 1,
-          label: 'Detik'
-        },
-        {
-          value: 2,
-          label: 'Kompas'
-        },
-        {
-          value: 3,
-          label: 'Tribun Jabar'
-        }
-      ],
+      featuredOptions: [],
+      channelOptions: [],
       statusOptions: [
         {
           value: 10,
@@ -162,16 +150,6 @@ export default {
           value: 0,
           label: 'Tidak aktif'
         }
-      ],
-      featuredOptions: [
-        // { value: 1, label: 'Berita Utama' },
-        // { value: 0, label: 'List' }
-      ],
-      kuy: [
-        { value: 1, label: 'Berita Utama' },
-        { value: 0, label: 'List' },
-        { value: 2, label: 'List 2' }
-
       ],
       rules: {
         title: [
