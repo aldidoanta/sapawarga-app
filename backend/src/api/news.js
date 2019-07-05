@@ -17,6 +17,14 @@ export function fetchListChannel(query) {
   })
 }
 
+export function fetchListPriorities(query) {
+  return request({
+    url: '',
+    method: 'get',
+    params: query
+  })
+}
+
 function fetchRecord(id) {
   return request({
     url: `/news/${id}`,
