@@ -2,6 +2,7 @@
 
 namespace app\modules\v1\controllers;
 
+use app\components\CustomCors;
 use app\filters\auth\HttpBearerAuth;
 use Yii;
 use yii\filters\AccessControl;
@@ -47,7 +48,7 @@ class NewsJabarController extends Controller
 
         // add CORS filter
         $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::className(),
+            'class' => CustomCors::className(),
             'cors' => [
                 'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -79,6 +80,15 @@ class NewsJabarController extends Controller
         ];
 
         return $behaviors;
+    }
+
+    public function actionOptions ()
+    {
+        if (Yii::$app->getRequest()->getMethod() !== 'OPTIONS') {
+            Yii::$app->getResponse()->setStatusCode(405);
+        }
+        $options = $this->_verbs;
+        Yii::$app->getResponse()->getHeaders()->set('Allow', implode(', ', $options));
     }
 
     /**
