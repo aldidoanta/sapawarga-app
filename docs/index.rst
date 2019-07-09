@@ -1,4 +1,4 @@
-Markdown test
+Markdown Test
 -------------
 
 Markdown files:
