@@ -103,18 +103,7 @@ class AspirasiSearch extends Aspirasi
 
         $query->andFilterWhere(['in', 'aspirasi.status', $statuses]);
 
-        $pageLimit = Arr::get($params, 'limit');
-        $sortBy    = Arr::get($params, 'sort_by', 'created_at');
-        $sortOrder = Arr::get($params, 'sort_order', 'descending');
-        $sortOrder = $this->getSortOrder($sortOrder);
-
-        return new ActiveDataProvider([
-            'query' => $query,
-            'sort'=> ['defaultOrder' => [$sortBy => $sortOrder]],
-            'pagination' => [
-                'pageSize' => $pageLimit,
-            ],
-        ]);
+        return $this->getActiveDataProvider($query, $params);
     }
 
     protected function getQueryAll($query, $params)
@@ -123,20 +112,7 @@ class AspirasiSearch extends Aspirasi
         $this->filterByArea($query, $params);
         $this->filterByCategory($query, $params);
 
-        $pageLimit = Arr::get($params, 'limit');
-        $sortBy    = Arr::get($params, 'sort_by', 'created_at');
-        $sortOrder = Arr::get($params, 'sort_order', 'descending');
-        $sortOrder = $this->getSortOrder($sortOrder);
-
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'sort'=> [
-                'defaultOrder' => [$sortBy => $sortOrder],
-            ],
-            'pagination' => [
-                'pageSize' => $pageLimit,
-            ],
-        ]);
+        $provider = $this->getActiveDataProvider($query, $params);
 
         $provider->sort->attributes['category.name'] = [
             'asc'  => ['categories.name' => SORT_ASC],
@@ -199,16 +175,19 @@ class AspirasiSearch extends Aspirasi
         }
     }
 
-    protected function getSortOrder($sortOrder)
+    protected function getActiveDataProvider($query, $params)
     {
-        switch ($sortOrder) {
-            case 'descending':
-                return SORT_DESC;
-                break;
-            case 'ascending':
-            default:
-                return SORT_ASC;
-                break;
-        }
+        $pageLimit = Arr::get($params, 'limit');
+        $sortBy    = Arr::get($params, 'sort_by', 'created_at');
+        $sortOrder = Arr::get($params, 'sort_order', 'descending');
+        $sortOrder = ModelHelper::getSortOrder($sortOrder);
+
+        return new ActiveDataProvider([
+            'query' => $query,
+            'sort'=> ['defaultOrder' => [$sortBy => $sortOrder]],
+            'pagination' => [
+                'pageSize' => $pageLimit,
+            ],
+        ]);
     }
 }
