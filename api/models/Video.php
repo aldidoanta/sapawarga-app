@@ -72,6 +72,8 @@ class Video extends ActiveRecord
             ['source', 'in', 'range' => ['youtube']],
             ['status', 'in', 'range' => [-1, 0, 10]],
             ['seq', 'in', 'range' => [1, 2, 3, 4, 5]],
+            ['seq', 'validatePriority', 'on' => 'create'],
+            ['seq', 'validatePriorityNotme', 'on' => 'update']
         ];
     }
 
@@ -152,8 +154,9 @@ class Video extends ActiveRecord
             BlameableBehavior::class,
         ];
     }
+
     /**
-     * Checks if category type is broadcast
+     * Checks if category type
      *
      * @param $attribute
      * @param $params
@@ -161,5 +164,42 @@ class Video extends ActiveRecord
     public function validateCategoryID($attribute, $params)
     {
         ModelHelper::validateCategoryID($this, $attribute);
+    }
+
+    /**
+     * Checks if priority exist
+     *
+     * @param $attribute
+     * @param $params
+     */
+    public function validatePriority($attribute, $params)
+    {
+        $model = Video::find($attribute)
+            ->where([$attribute => $this->seq])
+            ->andWhere(['!=', 'status', Video::STATUS_DELETED])
+            ->one();
+
+        if ($model !== null) {
+            $this->addError('seq', 'Priority sudah terpakai');
+        }
+    }
+
+    /**
+     * Checks if priority exist
+     *
+     * @param $attribute
+     * @param $params
+     */
+    public function validatePriorityNotme($attribute, $params)
+    {
+        $model = Video::find($attribute)
+            ->where(['!=', 'id', $this->id])
+            ->andWhere([$attribute => $this->seq])
+            ->andWhere(['!=', 'status', Video::STATUS_DELETED])
+            ->one();
+
+        if ($model !== null) {
+            $this->addError('seq', 'Priority sudah terpakai update');
+        }
     }
 }

@@ -168,6 +168,88 @@ class VideoCest
         ]);
     }
 
+    public function postAdminCannotSameSeqTest(ApiTester $I)
+    {
+        $I->haveInDatabase('videos', [
+            'id' => 1,
+            'category_id' => 22,
+            'title' => 'Lorem ipsum.',
+            'source' => 'youtube',
+            'video_url' => 'https://www.youtube.com/watch?v=YvG6D0qJflk',
+            'kabkota_id' => null,
+            'total_likes' => 0,
+            'seq' => 2,
+            'status' => 10,
+            'created_by' => 1,
+            'updated_by' => 1,
+            'created_at' => 1557803314,
+            'updated_at' => 1557803314,
+        ]);
+
+        $I->amStaff('admin');
+
+        $data = [
+            'id' => 2,
+            'title' => 'Lorem ipsum',
+            'category_id' => 22,
+            'source' => 'youtube',
+            'video_url' => 'https://www.youtube.com/watch?v=lorem',
+            'kabkota_id' => null,
+            'seq' => 2,
+            'status' => 10
+        ];
+
+        $I->sendPOST('/v1/videos', $data);
+        $I->canSeeResponseCodeIs(422);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => false,
+            'status' => 422,
+        ]);
+    }
+
+    public function postAdminSeqTest(ApiTester $I)
+    {
+        $I->haveInDatabase('videos', [
+            'id' => 1,
+            'category_id' => 22,
+            'title' => 'Lorem ipsum.',
+            'source' => 'youtube',
+            'video_url' => 'https://www.youtube.com/watch?v=YvG6D0qJflk',
+            'kabkota_id' => null,
+            'total_likes' => 0,
+            'seq' => 2,
+            'status' => 10,
+            'created_by' => 1,
+            'updated_by' => 1,
+            'created_at' => 1557803314,
+            'updated_at' => 1557803314,
+        ]);
+
+        $I->amStaff('admin');
+
+        $data = [
+            'id' => 2,
+            'title' => 'Lorem ipsum',
+            'category_id' => 22,
+            'source' => 'youtube',
+            'video_url' => 'https://www.youtube.com/watch?v=lorem',
+            'kabkota_id' => null,
+            'seq' => 1,
+            'status' => 10
+        ];
+
+        $I->sendPOST('/v1/videos', $data);
+        $I->canSeeResponseCodeIs(201);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status' => 201,
+        ]);
+    }
+
     public function deleteUserUnauthorizedTest(ApiTester $I)
     {
         $I->amUser('user');

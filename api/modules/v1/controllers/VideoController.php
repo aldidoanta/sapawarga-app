@@ -106,6 +106,8 @@ class VideoController extends ActiveController
 
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         $actions['view']['findModel'] = [$this, 'findModel'];
+        $actions['update']['scenario'] = 'update';
+        $actions['create']['scenario'] = 'create';
 
         return $actions;
     }
