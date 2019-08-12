@@ -134,25 +134,10 @@ class PhoneBookSearch extends PhoneBook
     {
         $query->andFilterWhere(['<>', 'status', PhoneBook::STATUS_DISABLED]);
 
-        // Jika memilih custom filter, akan override semua parameter default
-        if ($this->isCustomFilter($params) === true) {
-            ModelHelper::filterByArea($query, $params);
-        } else {
-            // Jika tidak memilih custom filter,
-            // by default tampilkan daftar instansi di Kab/Kota dimana user tersebut tinggal
-            $params['kabkota_id'] = Arr::get($user, 'kabkota_id');
+        // Override kabkota_id user
+        $params['kabkota_id'] = Arr::get($user, 'kabkota_id');
 
-            ModelHelper::filterByArea($query, $params);
-        }
-
-        if (Arr::has($params, ['search']) === false) {
-            $query->orWhere([
-                'and',
-                ['kabkota_id' => null],
-                ['kec_id' => null],
-                ['kel_id' => null],
-            ]);
-        }
+        ModelHelper::filterByArea($query, $params);
 
         return $this->getActiveDataProvider($query, $params);
     }
@@ -188,11 +173,6 @@ class PhoneBookSearch extends PhoneBook
                 'pageSize' => $pageLimit,
             ],
         ]);
-    }
-
-    protected function isCustomFilter($params)
-    {
-        return Arr::has($params, 'kabkota_id') || Arr::has($params, 'kec_id') || Arr::has($params, 'kel_id');
     }
 
     protected function getSortOrder($sortOrder)
