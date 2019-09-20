@@ -2,15 +2,14 @@
 
 namespace app\modules\v1\controllers;
 
-use app\filters\auth\HttpBearerAuth;
 use app\models\User;
 use app\models\Video;
+use app\models\VideoFeatured;
 use app\models\VideoSearch;
 use app\models\VideoStatistics;
-use app\models\Like;
+use app\modules\v1\repositories\VideoFeaturedRepository;
 use Yii;
 use yii\filters\AccessControl;
-use yii\filters\auth\CompositeAuth;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
@@ -36,6 +35,7 @@ class VideoController extends ActiveController
                 'update' => ['put'],
                 'delete' => ['delete'],
                 'public' => ['get'],
+                'featured' => ['get', 'post'],
                 'statistics' => ['get'],
                 'likes' => ['post'],
             ],
@@ -49,16 +49,16 @@ class VideoController extends ActiveController
         // setup access
         $behaviors['access'] = [
             'class' => AccessControl::className(),
-            'only' => ['index', 'view', 'create', 'update', 'delete', 'statistics'], //only be applied to
+            'only' => ['index', 'view', 'create', 'update', 'delete', 'featured', 'featured-update', 'statistics'], //only be applied to
             'rules' => [
                 [
                     'allow' => true,
-                    'actions' => ['index', 'view', 'create', 'update', 'delete',  'statistics'],
+                    'actions' => ['index', 'view', 'create', 'update', 'delete', 'featured', 'featured-update', 'statistics'],
                     'roles' => ['videoManage'],
                 ],
                 [
                     'allow' => true,
-                    'actions' => ['index', 'view', 'likes'],
+                    'actions' => ['index', 'view', 'featured', 'likes'],
                     'roles' => ['videoList'],
                 ],
             ],
@@ -105,6 +105,66 @@ class VideoController extends ActiveController
         $response->setStatusCode(204);
 
         return 'ok';
+    }
+
+    public function actionFeatured()
+    {
+        $params     = Yii::$app->request->getQueryParams();
+        $repository = new VideoFeaturedRepository();
+
+        return $repository->getList($params);
+    }
+
+    public function actionFeaturedUpdate()
+    {
+        $params    = Yii::$app->request->getQueryParams();
+        $kabkotaId = Arr::get($params, 'kabkota_id');
+
+        $records   = Yii::$app->getRequest()->getBodyParams();
+
+        return $this->parseInputFeatured($kabkotaId, $records);
+    }
+
+    protected function parseInputFeatured($kabkotaId, $records)
+    {
+        $repository = new VideoFeaturedRepository();
+        $repository->resetFeatured($kabkotaId);
+
+        foreach ($records as $record) {
+            $result = $this->saveFeatured($kabkotaId, $record);
+
+            if ($result !== true) {
+                return $result;
+            }
+        }
+
+        $response = Yii::$app->getResponse();
+        $response->setStatusCode(200);
+
+        return $response;
+    }
+
+    protected function saveFeatured($kabkotaId, $record)
+    {
+        if ($kabkotaId !== null) {
+            $record['kabkota_id'] = $kabkotaId;
+        }
+
+        $model = new VideoFeatured();
+        $model->load($record, '');
+
+        if ($model->validate() === false) {
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(422);
+
+            return $model->getErrors();
+        }
+
+        if ($model->save() === false) {
+            return $model->getErrors();
+        }
+
+        return true;
     }
 
     public function actionStatistics()

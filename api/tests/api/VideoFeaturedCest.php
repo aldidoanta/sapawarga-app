@@ -7,7 +7,7 @@ class VideoFeaturedCest
         Yii::$app->db->createCommand()->checkIntegrity(false)->execute();
 
         Yii::$app->db->createCommand('TRUNCATE videos')->execute();
-        Yii::$app->db->createCommand('TRUNCATE videos_featured')->execute();
+        Yii::$app->db->createCommand('TRUNCATE video_featured')->execute();
 
         // PROVINSI
         // ACTIVE
@@ -21,6 +21,8 @@ class VideoFeaturedCest
             'status'      => 10,
             'created_at'  => '1554706345',
             'updated_at'  => '1554706345',
+            'created_by'  => 1,
+            'updated_by'  => 1,
         ]);
 
         // DELETED
@@ -34,6 +36,8 @@ class VideoFeaturedCest
             'status'      => -1,
             'created_at'  => '1554706345',
             'updated_at'  => '1554706345',
+            'created_by'  => 1,
+            'updated_by'  => 1,
         ]);
 
         // DISABLED
@@ -47,6 +51,8 @@ class VideoFeaturedCest
             'status'      => 0,
             'created_at'  => '1554706345',
             'updated_at'  => '1554706345',
+            'created_by'  => 1,
+            'updated_by'  => 1,
         ]);
 
         // KABKOTA
@@ -61,6 +67,8 @@ class VideoFeaturedCest
             'status'      => 10,
             'created_at'  => '1554706345',
             'updated_at'  => '1554706345',
+            'created_by'  => 1,
+            'updated_by'  => 1,
         ]);
 
         // DELETED
@@ -74,6 +82,8 @@ class VideoFeaturedCest
             'status'      => -1,
             'created_at'  => '1554706345',
             'updated_at'  => '1554706345',
+            'created_by'  => 1,
+            'updated_by'  => 1,
         ]);
 
         // DISABLED
@@ -87,17 +97,19 @@ class VideoFeaturedCest
             'status'      => 0,
             'created_at'  => '1554706345',
             'updated_at'  => '1554706345',
+            'created_by'  => 1,
+            'updated_by'  => 1,
         ]);
 
-        $I->haveInDatabase('videos_featured', [
-            'videos_id' => 1,
+        $I->haveInDatabase('video_featured', [
+            'video_id' => 1,
             'seq'     => 1,
         ]);
 
-        $I->haveInDatabase('videos_featured', [
-            'videos_id'    => 4,
+        $I->haveInDatabase('video_featured', [
+            'video_id'    => 4,
             'kabkota_id' => 22,
-            'seq'        => 1,
+            'seq'        => 2,
         ]);
     }
 

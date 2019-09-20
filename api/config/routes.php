@@ -203,6 +203,9 @@ return [
         'extraPatterns' => [
             'GET statistics' => 'statistics',
             'OPTIONS statistics' => 'options',
+            'GET featured' => 'featured',
+            'POST featured' => 'featured-update',
+            'OPTIONS featured' => 'options',
         ]
     ],
     [

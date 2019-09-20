@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -10,7 +9,6 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "video_featured".
  *
- * @property int $id
  * @property int $video_id
  * @property int $kabkota_id
  * @property int $seq
@@ -42,7 +40,7 @@ class VideoFeatured extends ActiveRecord
 
     protected function getVideoCategory()
     {
-        return $this->video->channel;
+        return $this->video->category;
     }
 
     public function getVideoTitle()
@@ -50,25 +48,14 @@ class VideoFeatured extends ActiveRecord
         return $this->video->title;
     }
 
-    public function getVideoContent()
+    public function getVideoSource()
     {
-        return $this->video->content;
+        return $this->video->source;
     }
 
-    public function getVideoCoverPathUrl()
+    public function getVideoUrl()
     {
-        $bucket = Yii::$app->fileStorage->getBucket('imageFiles');
-        return $bucket->getFileUrl($this->video->cover_path);
-    }
-
-    public function getVideoSourceDate()
-    {
-        return $this->video->source_date;
-    }
-
-    public function getVideoSourceUrl()
-    {
-        return $this->video->source_url;
+        return $this->video->video_url;
     }
 
     /**
@@ -92,11 +79,9 @@ class VideoFeatured extends ActiveRecord
                 return $this->video->id;
             },
             'title' => 'VideoTitle',
-            'content' => 'VideoContent',
-            'cover_path_url' => 'VideoCoverPathUrl',
-            'source_date' => 'VideoSourceDate',
-            'source_url' => 'VideoSourceUrl',
-            'channel' => 'VideoChannel',
+            'source' => 'VideoSource',
+            'video_url' => 'VideoUrl',
+            'category' => 'VideoCategory',
             'seq',
         ];
     }
@@ -108,7 +93,7 @@ class VideoFeatured extends ActiveRecord
     {
         return [
             'id'          => 'ID',
-            'video_id'     => 'Berita',
+            'video_id'    => 'Video',
             'seq'         => 'Sequence',
         ];
     }
