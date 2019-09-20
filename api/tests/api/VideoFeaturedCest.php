@@ -109,7 +109,7 @@ class VideoFeaturedCest
         $I->haveInDatabase('video_featured', [
             'video_id'    => 4,
             'kabkota_id' => 22,
-            'seq'        => 2,
+            'seq'        => 1,
         ]);
     }
 
