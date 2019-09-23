@@ -8,6 +8,7 @@ use app\models\VideoFeatured;
 use app\models\VideoSearch;
 use app\models\VideoStatistics;
 use app\modules\v1\repositories\VideoFeaturedRepository;
+use Illuminate\Support\Arr;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
