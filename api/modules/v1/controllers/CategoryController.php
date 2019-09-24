@@ -4,6 +4,8 @@ namespace app\modules\v1\controllers;
 
 use app\models\Category;
 use app\models\CategorySearch;
+use app\models\NewsHoax;
+use app\models\Notification;
 use Illuminate\Support\Arr;
 use Yii;
 use yii\filters\AccessControl;
@@ -53,6 +55,11 @@ class CategoryController extends ActiveController
                     'allow'   => true,
                     'actions' => ['index', 'view'],
                     'roles'   => ['user', 'staffRW', 'newsSaberhoaxManage'],
+                ],
+                [
+                    'allow'   => true,
+                    'actions' => ['types'],
+                    'roles'   => ['newsSaberhoaxManage'],
                 ],
             ],
         ];
@@ -143,6 +150,23 @@ class CategoryController extends ActiveController
             ->groupBy('type')
             ->asArray()
             ->all();
+
+        $user = Yii::$app->user;
+        if ($user->can('newsSaberhoaxManage')) {
+            // Hanya menampilkan tipe kategori 'newsHoax'
+            $index = array_search(['id' => NewsHoax::CATEGORY_TYPE], $model);
+            $model = [$model[$index]];
+        } elseif ($user->can('admin')) {
+            // Tidak menampilkan tipe kategori 'notification'
+            $model = array_filter($model, function ($categoryType) {
+                return $categoryType['id'] !== Notification::CATEGORY_TYPE;
+            });
+        } else {
+            // Tidak menampilkan tipe kategori 'newsHoax' dan 'notification'
+            $model = array_filter($model, function ($categoryType) {
+                return !(in_array($categoryType['id'], Category::TYPE_VIEW_ONLY));
+            });
+        }
 
         foreach ($model as &$type) {
             $type['name'] = Category::TYPE_MAP[$type['id']];
