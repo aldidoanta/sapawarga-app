@@ -45,6 +45,7 @@ class CategoryCest
 
     public function getCategoryListAll(ApiTester $I)
     {
+        // As admin
         $I->amStaff();
 
         $I->sendGET($this->endpointCategory);
@@ -55,17 +56,53 @@ class CategoryCest
             'success' => true,
             'status'  => 200,
         ]);
-
         $I->seeResponseContainsJson([
             'type' => 'phonebook',
         ]);
-
         $I->seeResponseContainsJson([
-            'type' => 'broadcast',
+            'type' => 'newsHoax',
+        ]);
+        $I->seeResponseContainsJson([
+            'type' => 'notification',
         ]);
 
+        // As staffprov
+        $I->amStaff('staffprov');
+
+        $I->sendGET($this->endpointCategory);
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
+        $I->seeResponseContainsJson([
+            'type' => 'phonebook',
+        ]);
         $I->cantSeeResponseContainsJson([
             'type' => 'newsHoax',
+        ]);
+        $I->cantSeeResponseContainsJson([
+            'type' => 'notification',
+        ]);
+
+        // As saberhoax
+        $I->amStaff('saberhoax');
+
+        $I->sendGET($this->endpointCategory);
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
+        $I->seeResponseContainsJson([
+            'type' => 'newsHoax',
+        ]);
+        $I->cantSeeResponseContainsJson([
+            'type' => 'phonebook',
         ]);
     }
 
