@@ -71,9 +71,7 @@ class CategoryController extends ActiveController
     {
         $actions = parent::actions();
 
-        // Override actions related to edit
-        unset($actions['create']);
-        unset($actions['update']);
+        // Override delete action
         unset($actions['delete']);
 
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
@@ -82,54 +80,9 @@ class CategoryController extends ActiveController
         return $actions;
     }
 
-    public function actionCreate()
-    {
-        $model = new Category();
-
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-
-        $this->checkAccess('create', $model);
-
-        if ($model->validate() && $model->save()) {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(201);
-        } else {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(422);
-
-            return $model->getErrors();
-        }
-
-        return $model;
-    }
-
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-        $params = Yii::$app->getRequest()->getBodyParams();
-
-        $this->checkAccess('update', $model, $params);
-
-        $model->load($params, '');
-
-        if ($model->validate() && $model->save()) {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(200);
-        } else {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(422);
-
-            return $model->getErrors();
-        }
-
-        return $model;
-    }
-
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-
-        $this->checkAccess('delete', $model);
 
         $model->status = Category::STATUS_DELETED;
 
@@ -209,31 +162,5 @@ class CategoryController extends ActiveController
         }
 
         return $search->search(\Yii::$app->request->getQueryParams());
-    }
-
-    /**
-     * @param string $action the ID of the action to be executed
-     * @param object $model the model to be accessed. If null, it means no specific model is being accessed.
-     * @param array $params additional parameters
-     * @throws \yii\web\ForbiddenHttpException
-     */
-    public function checkAccess($action, $model = null, $params = [])
-    {
-        switch ($action) {
-            case 'create':
-            case 'delete':
-                if (in_array($model->type, Category::TYPE_VIEW_ONLY)) {
-                    throw new ForbiddenHttpException(Yii::t('app', 'error.role.permission'));
-                }
-                break;
-            case 'update':
-                if (in_array($model->type, Category::TYPE_VIEW_ONLY)
-                    || in_array(Arr::get($params, 'type'), Category::TYPE_VIEW_ONLY)) {
-                    throw new ForbiddenHttpException(Yii::t('app', 'error.role.permission'));
-                }
-                break;
-            default:
-                break;
-        }
     }
 }
