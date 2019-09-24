@@ -117,7 +117,7 @@ class CategoryController extends ActiveController
         } else {
             // Tidak menampilkan tipe kategori 'newsHoax' dan 'notification'
             $model = array_filter($model, function ($categoryType) {
-                return !(in_array($categoryType['id'], Category::TYPE_VIEW_ONLY));
+                return !(in_array($categoryType['id'], Category::EXCLUDED_TYPES));
             });
         }
 
@@ -157,8 +157,12 @@ class CategoryController extends ActiveController
         $search = new CategorySearch();
         $user   = Yii::$app->user;
 
-        if (!$user->can('newsSaberhoaxManage')) {
-            $search->scenario = CategorySearch::SCENARIO_LIST_NON_SABERHOAX;
+        if ($user->can('admin')) {
+            $search->scenario = CategorySearch::SCENARIO_LIST_ADMIN;
+        } elseif ($user->can('newsSaberhoaxManage')) {
+            $search->scenario = CategorySearch::SCENARIO_LIST_SABERHOAX;
+        } else {
+            $search->scenario = CategorySearch::SCENARIO_LIST_OTHER_ROLE;
         }
 
         return $search->search(\Yii::$app->request->getQueryParams());

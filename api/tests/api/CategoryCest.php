@@ -62,7 +62,7 @@ class CategoryCest
         $I->seeResponseContainsJson([
             'type' => 'newsHoax',
         ]);
-        $I->seeResponseContainsJson([
+        $I->cantseeResponseContainsJson([
             'type' => 'notification',
         ]);
 

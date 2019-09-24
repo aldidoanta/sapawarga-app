@@ -12,7 +12,9 @@ use yii\data\ActiveDataProvider;
  */
 class CategorySearch extends Category
 {
-    const SCENARIO_LIST_NON_SABERHOAX = 'list-non-saberhoax';
+    const SCENARIO_LIST_ADMIN = 'list-admin';
+    const SCENARIO_LIST_SABERHOAX = 'list-saberhoax';
+    const SCENARIO_LIST_OTHER_ROLE = 'list-other-role';
 
     /**
      * {@inheritdoc}
@@ -31,7 +33,11 @@ class CategorySearch extends Category
     public function scenarios()
     {
         $scenarios = Model::scenarios();
-        $scenarios[self::SCENARIO_LIST_NON_SABERHOAX] = ['id', 'name', 'type'];
+        $attributes = ['id', 'name', 'type'];
+
+        $scenarios[self::SCENARIO_LIST_ADMIN] = $attributes;
+        $scenarios[self::SCENARIO_LIST_SABERHOAX] = $attributes;
+        $scenarios[self::SCENARIO_LIST_OTHER_ROLE] = $attributes;
         return $scenarios;
     }
 
@@ -73,8 +79,15 @@ class CategorySearch extends Category
         $query->andFilterWhere(['like', 'name', Arr::get($params, 'name')]);
         $query->andFilterWhere(['like', 'type', Arr::get($params, 'type')]);
 
-        if ($this->scenario === self::SCENARIO_LIST_NON_SABERHOAX) {
-            $query->andFilterWhere(['<>', 'type', NewsHoax::CATEGORY_TYPE]);
+        if ($this->scenario === self::SCENARIO_LIST_SABERHOAX) {
+            // Hanya menampilkan tipe kategori 'newsHoax'
+            $query->andFilterWhere(['type' => NewsHoax::CATEGORY_TYPE]);
+        } elseif ($this->scenario === self::SCENARIO_LIST_ADMIN) {
+            // Tidak menampilkan tipe kategori 'notification'
+            $query->andFilterWhere(['<>', 'type', Notification::CATEGORY_TYPE]);
+        } elseif ($this->scenario === self::SCENARIO_LIST_OTHER_ROLE) {
+            // Tidak menampilkan tipe kategori 'newsHoax' dan 'notification'
+            $query->andFilterWhere(['not in', 'type', Category::EXCLUDED_TYPES]);
         }
 
         return $dataProvider;
