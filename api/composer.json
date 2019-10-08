@@ -22,7 +22,6 @@
     "intervention/image": "^2.4",
     "phpmd/phpmd": "@stable",
     "tebazil/yii2-db-seeder": "^0.0.0",
-    "yii2tech/file-storage": "^1.1",
     "yiisoft/yii2": "~2.0.14",
     "yiisoft/yii2-bootstrap": "~2.0.0",
     "yiisoft/yii2-swiftmailer": "~2.0.0",
@@ -30,7 +29,9 @@
     "yiisoft/yii2-queue": "^2.3",
     "hashids/hashids": "^3.0",
     "sentry/sentry": "2.1.1",
-    "vlucas/phpdotenv": "^3.5"
+    "vlucas/phpdotenv": "^3.5",
+    "creocoder/yii2-flysystem": "^0.9.3",
+    "league/flysystem-aws-s3-v3": "^1.0"
   },
   "require-dev": {
     "codeception/codeception": "^2.5.5",

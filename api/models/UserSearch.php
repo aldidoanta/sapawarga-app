@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Carbon\Carbon;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -22,8 +23,12 @@ class UserSearch extends Model
     public $kel_id;
     public $rw;
 
+    public $last_access_start;
+    public $last_access_end;
+
     public $status;
 
+    public $profile_completed;
     public $limit;
     public $sort_by;
     public $sort_order;
@@ -33,14 +38,17 @@ class UserSearch extends Model
         return [
             [['search'], 'string', 'max' => 50],
             [['limit', 'status'], 'integer'],
+            [['last_access_start', 'last_access_end'], 'default'],
             [
                 [
                     'name', 'username', 'phone',
                     'role_id', 'kabkota_id', 'kec_id', 'kel_id', 'rw',
-                    'sort_by', 'sort_order'
+                    'sort_by', 'sort_order',
+                    'profile_completed'
                 ],
                 'string'
             ],
+            ['profile_completed', 'in', 'range' => ['true', 'false']],
         ];
     }
 
@@ -79,6 +87,14 @@ class UserSearch extends Model
             $query->andWhere(['rw' => $this->rw]);
         }
 
+        if ($this->last_access_start && $this->last_access_end) {
+            $lastAccessStart = (new Carbon($this->last_access_start))->startOfDay();
+            $lastAccessEnd   = (new Carbon($this->last_access_end))->endOfDay();
+
+            $query->andWhere(['>=', 'last_access_at', $lastAccessStart]);
+            $query->andWhere(['<=', 'last_access_at', $lastAccessEnd]);
+        }
+
         if ($this->search) {
             $query->andWhere([
                 'or',
@@ -101,6 +117,11 @@ class UserSearch extends Model
 
         if (isset($this->status)) {
             $query->andWhere(['user.status' => $this->status]);
+        }
+
+        if (isset($this->profile_completed)) {
+            $conditional = ($this->profile_completed === 'true') ? 'is not' : 'is';
+            $query->andWhere([$conditional, 'user.profile_updated_at', null]);
         }
 
         $this->sort_by = $this->sort_by ?? 'name';

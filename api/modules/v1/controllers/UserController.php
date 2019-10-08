@@ -14,7 +14,9 @@ use app\models\User;
 use app\models\UserPhotoUploadForm;
 use app\models\UserChangeProfileForm;
 use app\models\UserSearch;
+use app\modules\v1\controllers\Concerns\UserPhotoUpload;
 use Intervention\Image\ImageManager;
+use Jdsteam\Sapawarga\Filters\RecordLastActivity;
 use Yii;
 use yii\base\Exception;
 use yii\filters\AccessControl;
@@ -28,7 +30,7 @@ use yii\web\UploadedFile;
 
 class UserController extends ActiveController
 {
-    use UserTrait;
+    use UserTrait, UserPhotoUpload;
 
     public $modelClass = 'app\models\User';
 
@@ -68,6 +70,10 @@ class UserController extends ActiveController
                 'me-change-password' => ['post'],
                 'me-change-profile' => ['post'],
             ],
+        ];
+
+        $behaviors['recordLastActivity'] = [
+            'class' => RecordLastActivity::class,
         ];
 
         // remove authentication filter
@@ -322,8 +328,8 @@ class UserController extends ActiveController
     public function actionConfirm()
     {
         $model = new SignupConfirmForm();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
-        $model->load(Yii::$app->request->post());
         if ($model->validate() && $model->confirm()) {
             $response = \Yii::$app->getResponse();
             $response->setStatusCode(200);
@@ -353,8 +359,8 @@ class UserController extends ActiveController
     public function actionPasswordResetRequest()
     {
         $model = new PasswordResetRequestForm();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
-        $model->load(Yii::$app->request->post());
         if ($model->validate() && $model->sendPasswordResetEmail()) {
             $response = \Yii::$app->getResponse();
             $response->setStatusCode(200);
@@ -380,8 +386,8 @@ class UserController extends ActiveController
     public function actionPasswordResetTokenVerification()
     {
         $model = new PasswordResetTokenVerificationForm();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
-        $model->load(Yii::$app->request->post());
         if ($model->validate() && $model->validate()) {
             $response = \Yii::$app->getResponse();
             $response->setStatusCode(200);
@@ -407,8 +413,8 @@ class UserController extends ActiveController
     public function actionPasswordReset()
     {
         $model = new PasswordResetForm();
-        $model->load(Yii::$app->request->post());
-
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        
         if ($model->validate() && $model->resetPassword()) {
             $response = \Yii::$app->getResponse();
             $response->setStatusCode(200);
@@ -501,59 +507,14 @@ class UserController extends ActiveController
 
     public function actionMePhoto()
     {
-        $user = User::findIdentity(\Yii::$app->user->getId());
-
-        /**
-         * @var \yii2tech\filestorage\BucketInterface $bucket
-         */
-        $bucket = Yii::$app->fileStorage->getBucket('imageFiles');
-
-        $responseData = [
-            'photo_url' => $bucket->getFileUrl($user->photo_url),
-        ];
-
-        return $responseData;
+       //
     }
 
     public function actionMePhotoUpload()
     {
-        $user = User::findIdentity(\Yii::$app->user->getId());
+        $user = User::findIdentity(Yii::$app->user->getId());
 
-        /**
-         * @var \yii2tech\filestorage\BucketInterface $bucket
-         */
-        $bucket = Yii::$app->fileStorage->getBucket('imageFiles');
-
-        $imageProcessor = new ImageManager();
-        $model = new UserPhotoUploadForm();
-
-        $model->setBucket($bucket);
-        $model->setImageProcessor($imageProcessor);
-
-        $model->image = UploadedFile::getInstanceByName('image');
-
-        if (! $model->validate()) {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(422);
-
-            return $model->getErrors();
-        }
-
-        if ($model->upload()) {
-            $relativePath = $model->getRelativeFilePath();
-
-            $user->photo_url = $relativePath;
-            $user->save(false);
-
-            $responseData = [
-                'photo_url' => $bucket->getFileUrl($relativePath),
-            ];
-
-            return $responseData;
-        }
-
-        $response = Yii::$app->getResponse();
-        $response->setStatusCode(400);
+        return $this->processPhotoUpload($user);
     }
 
     /**

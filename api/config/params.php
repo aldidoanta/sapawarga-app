@@ -11,13 +11,14 @@ $paginationParams = [
 
 return [
     'frontendURL' => getenv('FRONTEND_URL'),
-    'supportEmail' => 'sapawarga@jabarprov.go.id',
-    'adminEmail' => 'sapawarga@jabarprov.go.id',
+    'supportEmail' => getenv('MAILER_FROM_EMAIL'),
+    'adminEmail' => getenv('MAILER_FROM_EMAIL'),
+    'adminEmailName' => getenv('MAILER_FROM_NAME'),
     'jwtSecretCode' => 'someSecretKey',
     'user.passwordResetTokenExpire' => 3600,
     'paginationParams' => $paginationParams,
     'upload_max_size' => 1024 * 1024 * 2,
-    'local_storage_base_url' => getenv('APP_STORAGE_LOCAL_URL'),
+    'storagePublicBaseUrl' => getenv('APP_STORAGE_PUBLIC_URL'),
     'hashidSaltSecret' => 'JDSSaltSecret',
     'hashidLengthPad' => 5,
 ];
