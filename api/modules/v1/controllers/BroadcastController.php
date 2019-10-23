@@ -11,6 +11,7 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
+use yii\web\ForbiddenHttpException;
 
 /**
  * BroadcastController implements the CRUD actions for Broadcast model.
@@ -127,6 +128,8 @@ class BroadcastController extends ActiveController
     {
         $model = Broadcast::findOne($id);
 
+        $this->checkAccess('update', $model, $id);
+
         if ($model === null) {
             throw new NotFoundHttpException("Object not found: $id");
         }
@@ -229,7 +232,20 @@ class BroadcastController extends ActiveController
      */
     public function checkAccess($action, $model = null, $params = [])
     {
-        // throw new ForbiddenHttpException();
+        $authUser = Yii::$app->user;
+        $authUserId = $authUser->id;
+
+        // Allow all action for admin
+        if ($authUser->can('admin')) {
+            return true;
+        }
+
+        // Only own can be update and delete
+        if ($action === 'update' || $action === 'delete') {
+            if ($model->created_by !== $authUserId) {
+                throw new ForbiddenHttpException(Yii::t('app', 'error.role.permission'));
+            }
+        }
     }
 
     /**

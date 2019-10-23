@@ -224,6 +224,33 @@ class BroadcastCest
         ]);
     }
 
+    public function cannotUpdateNotOwnBroadcast(ApiTester $I)
+    {
+        $I->haveInDatabase('broadcasts', [
+            'id'           => 1,
+            'category_id'  => 5,
+            'author_id'    => 1,
+            'title'        => 'Kegiatan Gubernur.',
+            'description'  => 'Lorem ipsum.',
+            'is_scheduled' => false,
+            'kabkota_id'   => 22,
+            'status'       => 10,
+            'created_at'   => '1554706345',
+            'updated_at'   => '1554706345',
+            'created_by'   => 2,
+            'updated_by'   => 2,
+        ]);
+
+        $I->amStaff('staffkabkota');
+
+        $I->sendPUT("{$this->endpointBroadcast}/1?test=1", [
+            'title' => 'Edited',
+        ]);
+
+        $I->canSeeResponseCodeIs(403);
+        $I->seeResponseIsJson();
+    }
+
     public function updateBroadcast(ApiTester $I)
     {
         $I->haveInDatabase('broadcasts', [
@@ -252,6 +279,52 @@ class BroadcastCest
             'success' => true,
             'status'  => 200,
         ]);
+    }
+
+    public function cannotDeleteNotOwnBroadcast(ApiTester $I)
+    {
+        $I->haveInDatabase('broadcasts', [
+            'id'           => 1,
+            'category_id'  => 5,
+            'author_id'    => 1,
+            'title'        => 'Kegiatan Gubernur.',
+            'description'  => 'Lorem ipsum.',
+            'is_scheduled' => false,
+            'kabkota_id'   => 22,
+            'status'       => 10,
+            'created_at'   => '1554706345',
+            'updated_at'   => '1554706345',
+            'created_by'   => 2,
+            'updated_by'   => 2,
+        ]);
+
+        $I->amStaff('staffkabkota');
+
+        $I->sendDELETE("{$this->endpointBroadcast}/1?test=1");
+        $I->canSeeResponseCodeIs(403);
+    }
+
+    public function adminCanDeleteNotOwnBroadcast(ApiTester $I)
+    {
+        $I->haveInDatabase('broadcasts', [
+            'id'           => 1,
+            'category_id'  => 5,
+            'author_id'    => 1,
+            'title'        => 'Kegiatan Gubernur.',
+            'description'  => 'Lorem ipsum.',
+            'is_scheduled' => false,
+            'kabkota_id'   => 22,
+            'status'       => 10,
+            'created_at'   => '1554706345',
+            'updated_at'   => '1554706345',
+            'created_by'   => 2,
+            'updated_by'   => 2,
+        ]);
+
+        $I->amStaff('admin');
+
+        $I->sendDELETE("{$this->endpointBroadcast}/1?test=1");
+        $I->canSeeResponseCodeIs(204);
     }
 
     public function deleteBroadcast(ApiTester $I)
@@ -301,7 +374,7 @@ class BroadcastCest
         ]);
     }
 
-    public function getBroadcastListAll(ApiTester $I)
+    public function getDetailAddresedBroadcast(ApiTester $I)
     {
         $I->haveInDatabase('broadcasts', [
             'id'           => 1,
@@ -314,6 +387,8 @@ class BroadcastCest
             'status'       => 10,
             'created_at'   => '1554706345',
             'updated_at'   => '1554706345',
+            'created_by'   => 2,
+            'updated_by'   => 2,
         ]);
 
         $I->haveInDatabase('broadcasts', [
@@ -327,26 +402,24 @@ class BroadcastCest
             'status'       => 10,
             'created_at'   => '1554706345',
             'updated_at'   => '1554706345',
+            'created_by'   => 3,
+            'updated_by'   => 3,
         ]);
 
-        $I->amStaff();
+        // user staffkabkota, only can see kabkota_id = 22
+        $I->amStaff('staffkabkota');
 
-        $I->sendGET($this->endpointBroadcast);
+        $I->sendGET($this->endpointBroadcast . '/1');
         $I->canSeeResponseCodeIs(200);
         $I->seeResponseIsJson();
-
         $I->seeResponseContainsJson([
             'success' => true,
             'status'  => 200,
         ]);
 
-        $I->seeResponseContainsJson([
-            'kabkota_id' => 22,
-        ]);
-
-        $I->seeResponseContainsJson([
-            'kabkota_id' => 23,
-        ]);
+        $I->sendGET($this->endpointBroadcast . '/2');
+        $I->canSeeResponseCodeIs(404);
+        $I->seeResponseIsJson();
     }
 
     // Test cases for RW/users
