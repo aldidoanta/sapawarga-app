@@ -214,16 +214,16 @@ class AspirasiTest extends \Codeception\Test\Unit
         $this->assertFalse($model->hasErrors('author_id'));
     }
 
-//    public function testAttachmentsInputString()
-//    {
-//        $model = new Aspirasi();
-//
-//        $model->attachments = 'test';
-//
-//        $model->validate();
-//
-//        $this->assertTrue($model->hasErrors('attachments'));
-//    }
+   public function testAttachmentsInputString()
+   {
+       $model = new Aspirasi();
+
+       $model->attachments = 'test';
+
+       $model->validate();
+
+       $this->assertTrue($model->hasErrors('attachments'));
+   }
 
     public function testAttachmentsInputEmpty()
     {
