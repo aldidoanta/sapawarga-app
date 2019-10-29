@@ -81,118 +81,6 @@ class AspirasiCest
         $I->assertEquals(1, $data[0][2]['id']);
     }
 
-    public function listUserPublishedOrderByCategoryNameAscendingTest(ApiTester $I)
-    {
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 1,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
-            'category_id' => 9, // INFRASTRUKTUR
-            'author_id'   => 36,
-        ]);
-
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 2,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
-            'category_id' => 10, // SUMBER DAYA MANUSIA
-            'author_id'   => 36,
-        ]);
-
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 3,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
-            'category_id' => 11, // EKONOMI
-            'author_id'   => 36,
-        ]);
-
-        $I->amUser('user');
-
-        $I->sendGET('/v1/aspirasi?sort_by=category.name&sort_order=ascending');
-        $I->canSeeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-
-        $I->seeResponseContainsJson([
-            'success' => true,
-            'status'  => 200,
-        ]);
-
-        $data = $I->grabDataFromResponseByJsonPath('$.data.items');
-
-        $I->assertEquals(3, $data[0][0]['id']);
-        $I->assertEquals(1, $data[0][1]['id']);
-        $I->assertEquals(2, $data[0][2]['id']);
-    }
-
-    public function listUserPublishedOrderByCategoryNameDescendingTest(ApiTester $I)
-    {
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 1,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
-            'category_id' => 9, // INFRASTRUKTUR
-            'author_id'   => 36,
-        ]);
-
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 2,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
-            'category_id' => 10, // SUMBER DAYA MANUSIA
-            'author_id'   => 36,
-        ]);
-
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 3,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
-            'category_id' => 11, // EKONOMI
-            'author_id'   => 36,
-        ]);
-
-        $I->amUser('user');
-
-        $I->sendGET('/v1/aspirasi?sort_by=category.name&sort_order=descending');
-        $I->canSeeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-
-        $I->seeResponseContainsJson([
-            'success' => true,
-            'status'  => 200,
-        ]);
-
-        $data = $I->grabDataFromResponseByJsonPath('$.data.items');
-
-        $I->assertEquals(2, $data[0][0]['id']);
-        $I->assertEquals(1, $data[0][1]['id']);
-        $I->assertEquals(3, $data[0][2]['id']);
-    }
-
     // Aspirasi List - Me
     public function listUserMeTest(ApiTester $I)
     {
@@ -340,6 +228,117 @@ class AspirasiCest
         $I->assertEquals(1, $data[0][0]['id']);
     }
 
+    public function listStaffOrderByCategoryNameAscendingTest(ApiTester $I)
+    {
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 1,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 10,
+            'category_id' => 9, // INFRASTRUKTUR
+            'author_id'   => 36,
+        ]);
+
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 2,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 10,
+            'category_id' => 10, // SUMBER DAYA MANUSIA
+            'author_id'   => 36,
+        ]);
+
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 3,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 10,
+            'category_id' => 11, // EKONOMI
+            'author_id'   => 36,
+        ]);
+
+        $I->amStaff('staffprov');
+
+        $I->sendGET('/v1/aspirasi?sort_by=category.name&sort_order=ascending');
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
+
+        $data = $I->grabDataFromResponseByJsonPath('$.data.items');
+
+        $I->assertEquals(3, $data[0][0]['id']);
+        $I->assertEquals(1, $data[0][1]['id']);
+        $I->assertEquals(2, $data[0][2]['id']);
+    }
+
+    public function listStaffOrderByCategoryNameDescendingTest(ApiTester $I)
+    {
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 1,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 10,
+            'category_id' => 9, // INFRASTRUKTUR
+            'author_id'   => 36,
+        ]);
+
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 2,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 10,
+            'category_id' => 10, // SUMBER DAYA MANUSIA
+            'author_id'   => 36,
+        ]);
+
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 3,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 10,
+            'category_id' => 11, // EKONOMI
+            'author_id'   => 36,
+        ]);
+
+        $I->amStaff('staffprov');
+
+        $I->sendGET('/v1/aspirasi?sort_by=category.name&sort_order=descending');
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
+
+        $data = $I->grabDataFromResponseByJsonPath('$.data.items');
+
+        $I->assertEquals(2, $data[0][0]['id']);
+        $I->assertEquals(1, $data[0][1]['id']);
+        $I->assertEquals(3, $data[0][2]['id']);
+    }
 
     // Aspirasi Get Detail
     public function getShowTest(ApiTester $I)
