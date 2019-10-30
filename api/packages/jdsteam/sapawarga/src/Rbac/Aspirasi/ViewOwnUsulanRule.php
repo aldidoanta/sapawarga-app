@@ -1,16 +1,16 @@
 <?php
 
-namespace Jdsteam\Sapawarga\Rbac;
+namespace Jdsteam\Sapawarga\Rbac\Aspirasi;
 
 use app\models\Aspirasi;
 use yii\rbac\Rule;
 
 /**
- * Checks if status of an aspirasi is Pending
+ * Rule containing logic to view own Usulan/Aspirasi
  */
-class AspirasiDeleteRule extends Rule
+class ViewOwnUsulanRule extends Rule
 {
-    public $name = 'canDeleteAspirasi';
+    public $name = 'canViewOwnUsulan';
 
     /**
      * @param string|int $user the user ID.
@@ -21,8 +21,8 @@ class AspirasiDeleteRule extends Rule
     public function execute($user, $item, $params)
     {
         return isset($params['aspirasi'])
-            ? $params['aspirasi']->status == Aspirasi::STATUS_DRAFT
-                || $params['aspirasi']->status == Aspirasi::STATUS_APPROVAL_REJECTED
+            ? $params['aspirasi']->author_id == $user
+                && $params['aspirasi']->status != Aspirasi::STATUS_DELETED
             : false;
     }
 }

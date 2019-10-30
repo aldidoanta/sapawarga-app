@@ -1,15 +1,16 @@
 <?php
 
-namespace Jdsteam\Sapawarga\Rbac;
+namespace Jdsteam\Sapawarga\Rbac\Aspirasi;
 
+use app\models\Aspirasi;
 use yii\rbac\Rule;
 
 /**
- * Checks if user is the author of an instance passed via params
+ * Rule containing logic to like Usulan/Aspirasi
  */
-class AuthorRule extends Rule
+class LikeAspirasiRule extends Rule
 {
-    public $name = 'isAuthor';
+    public $name = 'canLikeAspirasi';
 
     /**
      * @param string|int $user the user ID.
@@ -19,6 +20,8 @@ class AuthorRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return isset($params['instance']) ? $params['instance']->created_by == $user : false;
+        return isset($params['aspirasi'])
+            ? $params['aspirasi']->status == Aspirasi::STATUS_PUBLISHED
+            : false;
     }
 }

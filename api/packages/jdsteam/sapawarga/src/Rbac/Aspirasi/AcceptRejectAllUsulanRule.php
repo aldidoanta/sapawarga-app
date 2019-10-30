@@ -1,16 +1,16 @@
 <?php
 
-namespace Jdsteam\Sapawarga\Rbac;
+namespace Jdsteam\Sapawarga\Rbac\Aspirasi;
 
 use app\models\Aspirasi;
 use yii\rbac\Rule;
 
 /**
- * Checks if status of an aspirasi is Published
+ * Rule containing logic to accept/reject all Usulan/Aspirasi with pending status
  */
-class AspirasiLikeRule extends Rule
+class AcceptRejectAllUsulanRule extends Rule
 {
-    public $name = 'canLikeAspirasi';
+    public $name = 'canAcceptRejectAllUsulan';
 
     /**
      * @param string|int $user the user ID.
@@ -21,7 +21,7 @@ class AspirasiLikeRule extends Rule
     public function execute($user, $item, $params)
     {
         return isset($params['aspirasi'])
-            ? $params['aspirasi']->status == Aspirasi::STATUS_PUBLISHED
+            ? $params['aspirasi']->status == Aspirasi::STATUS_APPROVAL_PENDING
             : false;
     }
 }

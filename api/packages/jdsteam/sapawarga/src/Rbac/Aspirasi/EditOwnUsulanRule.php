@@ -1,16 +1,16 @@
 <?php
 
-namespace Jdsteam\Sapawarga\Rbac;
+namespace Jdsteam\Sapawarga\Rbac\Aspirasi;
 
 use app\models\Aspirasi;
 use yii\rbac\Rule;
 
 /**
- * Checks if status of an aspirasi is Pending
+ * Rule containing logic to edit own Usulan/Aspirasi
  */
-class AspirasiApprovalRule extends Rule
+class EditOwnUsulanRule extends Rule
 {
-    public $name = 'canApproveAspirasi';
+    public $name = 'canEditOwnUsulan';
 
     /**
      * @param string|int $user the user ID.
@@ -21,7 +21,9 @@ class AspirasiApprovalRule extends Rule
     public function execute($user, $item, $params)
     {
         return isset($params['aspirasi'])
-            ? $params['aspirasi']->status == Aspirasi::STATUS_APPROVAL_PENDING
+            ? $params['aspirasi']->author_id == $user
+                && ($params['aspirasi']->status == Aspirasi::STATUS_DRAFT
+                  || $params['aspirasi']->status == Aspirasi::STATUS_APPROVAL_REJECTED)
             : false;
     }
 }
