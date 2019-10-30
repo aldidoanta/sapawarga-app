@@ -6,11 +6,11 @@ use app\models\Aspirasi;
 use yii\rbac\Rule;
 
 /**
- * Rule containing logic to edit own Usulan/Aspirasi
+ * Rule containing logic to view own Usulan/Aspirasi
  */
-class EditOwnUsulanRule extends Rule
+class ViewOwnAspirasiRule extends Rule
 {
-    public $name = 'canEditOwnUsulan';
+    public $name = 'canViewOwnAspirasi';
 
     /**
      * @param string|int $user the user ID.
@@ -22,8 +22,7 @@ class EditOwnUsulanRule extends Rule
     {
         return isset($params['aspirasi'])
             ? $params['aspirasi']->author_id == $user
-                && ($params['aspirasi']->status == Aspirasi::STATUS_DRAFT
-                  || $params['aspirasi']->status == Aspirasi::STATUS_APPROVAL_REJECTED)
+                && $params['aspirasi']->status != Aspirasi::STATUS_DELETED
             : false;
     }
 }

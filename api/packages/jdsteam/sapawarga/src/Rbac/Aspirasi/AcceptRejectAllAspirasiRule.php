@@ -6,11 +6,11 @@ use app\models\Aspirasi;
 use yii\rbac\Rule;
 
 /**
- * Rule containing logic to view own Usulan/Aspirasi
+ * Rule containing logic to accept/reject all Usulan/Aspirasi with pending status
  */
-class ViewOwnUsulanRule extends Rule
+class AcceptRejectAllAspirasiRule extends Rule
 {
-    public $name = 'canViewOwnUsulan';
+    public $name = 'canAcceptRejectAllAspirasi';
 
     /**
      * @param string|int $user the user ID.
@@ -21,8 +21,7 @@ class ViewOwnUsulanRule extends Rule
     public function execute($user, $item, $params)
     {
         return isset($params['aspirasi'])
-            ? $params['aspirasi']->author_id == $user
-                && $params['aspirasi']->status != Aspirasi::STATUS_DELETED
+            ? $params['aspirasi']->status == Aspirasi::STATUS_APPROVAL_PENDING
             : false;
     }
 }
