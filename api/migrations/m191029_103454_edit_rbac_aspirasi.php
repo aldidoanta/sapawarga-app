@@ -81,31 +81,31 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $acceptRejectAspirasiRule = new Aspirasi\AcceptRejectAllAspirasiRule;
         $this->_auth->add($acceptRejectAspirasiRule);
 
-        $viewAllUsulanPermission              = $this->_auth->createPermission('viewAllUsulan');
-        $viewAllUsulanPermission->description = 'Mengakses daftar dan detail semua Usulan';
-        $this->_auth->add($viewAllUsulanPermission);
+        $viewAllAspirasiPermission              = $this->_auth->createPermission('viewAllAspirasi');
+        $viewAllAspirasiPermission->description = 'Mengakses daftar dan detail semua Usulan';
+        $this->_auth->add($viewAllAspirasiPermission);
 
-        $viewAddressedUsulanPermission              = $this->_auth->createPermission('viewAddressedUsulan');
-        $viewAddressedUsulanPermission->description = 'Mengakses daftar dan detail Usulan yang dialamatkan kepada unitnya';
-        $this->_auth->add($viewAddressedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffProv, $viewAddressedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffKabkota, $viewAddressedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffKec, $viewAddressedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffKel, $viewAddressedUsulanPermission);
+        $viewAddressedAspirasiPermission              = $this->_auth->createPermission('viewAddressedAspirasi');
+        $viewAddressedAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang dialamatkan kepada unitnya';
+        $this->_auth->add($viewAddressedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffProv, $viewAddressedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffKabkota, $viewAddressedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffKec, $viewAddressedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffKel, $viewAddressedAspirasiPermission);
 
-        $viewAddressedCascadedUsulanPermission              = $this->_auth->createPermission('viewAddressedCascadedUsulan');
-        $viewAddressedCascadedUsulanPermission->description = 'Mengakses daftar dan detail Usulan yang dialamatkan kepada unitnya dengan hirarki level di bawahnya';
-        $this->_auth->add($viewAddressedCascadedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffProv, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffKabkota, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffKec, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffKel, $viewAddressedCascadedUsulanPermission);
+        $viewAddressedCascadedAspirasiPermission              = $this->_auth->createPermission('viewAddressedCascadedAspirasi');
+        $viewAddressedCascadedAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang dialamatkan kepada unitnya dengan hirarki level di bawahnya';
+        $this->_auth->add($viewAddressedCascadedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffProv, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffKabkota, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffKec, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffKel, $viewAddressedCascadedAspirasiPermission);
 
-        $acceptRejectAllUsulanPermission              = $this->_auth->createPermission('acceptRejectAllUsulan');
-        $acceptRejectAllUsulanPermission->description = 'Menerima/Menolak semua Usulan';
-        $acceptRejectAllUsulanPermission->ruleName    = $acceptRejectAspirasiRule->name;
-        $this->_auth->add($acceptRejectAllUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffProv, $acceptRejectAllUsulanPermission);
+        $acceptRejectAllAspirasiPermission              = $this->_auth->createPermission('acceptRejectAllAspirasi');
+        $acceptRejectAllAspirasiPermission->description = 'Menerima/Menolak semua Usulan';
+        $acceptRejectAllAspirasiPermission->ruleName    = $acceptRejectAspirasiRule->name;
+        $this->_auth->add($acceptRejectAllAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffProv, $acceptRejectAllAspirasiPermission);
 
     }
 
@@ -118,67 +118,67 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $this->_auth->add($editOwnAspirasiRule);
         $this->_auth->add($likeAspirasiRule);
 
-        $createUsulanPermission              = $this->_auth->createPermission('createUsulan');
-        $createUsulanPermission->description = 'Membuat Usulan Baru';
-        $this->_auth->add($createUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffRW, $createUsulanPermission);
-        $this->_auth->addChild($this->_roleUser, $createUsulanPermission);
+        $createAspirasiPermission              = $this->_auth->createPermission('createAspirasi');
+        $createAspirasiPermission->description = 'Membuat Usulan Baru';
+        $this->_auth->add($createAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffRW, $createAspirasiPermission);
+        $this->_auth->addChild($this->_roleUser, $createAspirasiPermission);
 
-        $viewOwnUsulanPermission              = $this->_auth->createPermission('viewOwnUsulan');
-        $viewOwnUsulanPermission->description = 'Mengakses daftar dan detail Usulan yang dibuat sendiri';
-        $viewOwnUsulanPermission->ruleName    = $viewOwnAspirasiRule->name;
-        $this->_auth->add($viewOwnUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffRW, $viewOwnUsulanPermission);
-        $this->_auth->addChild($this->_roleUser, $viewOwnUsulanPermission);
+        $viewOwnAspirasiPermission              = $this->_auth->createPermission('viewOwnAspirasi');
+        $viewOwnAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang dibuat sendiri';
+        $viewOwnAspirasiPermission->ruleName    = $viewOwnAspirasiRule->name;
+        $this->_auth->add($viewOwnAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffRW, $viewOwnAspirasiPermission);
+        $this->_auth->addChild($this->_roleUser, $viewOwnAspirasiPermission);
 
-        $editOwnUsulanPermission              = $this->_auth->createPermission('editOwnUsulan');
-        $editOwnUsulanPermission->description = 'Mengedit Usulan yang dibuat sendiri dan berstatus Draft atau Ditolak';
-        $editOwnUsulanPermission->ruleName    = $editOwnAspirasiRule->name;
-        $this->_auth->add($editOwnUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffRW, $editOwnUsulanPermission);
-        $this->_auth->addChild($this->_roleUser, $editOwnUsulanPermission);
+        $editOwnAspirasiPermission              = $this->_auth->createPermission('editOwnAspirasi');
+        $editOwnAspirasiPermission->description = 'Mengedit Usulan yang dibuat sendiri dan berstatus Draft atau Ditolak';
+        $editOwnAspirasiPermission->ruleName    = $editOwnAspirasiRule->name;
+        $this->_auth->add($editOwnAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffRW, $editOwnAspirasiPermission);
+        $this->_auth->addChild($this->_roleUser, $editOwnAspirasiPermission);
 
-        $deleteOwnUsulanPermission              = $this->_auth->createPermission('deleteOwnUsulan');
-        $deleteOwnUsulanPermission->description = 'Menghapus Usulan yang dibuat sendiri dan berstatus Draft atau Ditolak';
-        $deleteOwnUsulanPermission->ruleName    = $editOwnAspirasiRule->name;
-        $this->_auth->add($deleteOwnUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffRW, $deleteOwnUsulanPermission);
-        $this->_auth->addChild($this->_roleUser, $deleteOwnUsulanPermission);
+        $deleteOwnAspirasiPermission              = $this->_auth->createPermission('deleteOwnAspirasi');
+        $deleteOwnAspirasiPermission->description = 'Menghapus Usulan yang dibuat sendiri dan berstatus Draft atau Ditolak';
+        $deleteOwnAspirasiPermission->ruleName    = $editOwnAspirasiRule->name;
+        $this->_auth->add($deleteOwnAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffRW, $deleteOwnAspirasiPermission);
+        $this->_auth->addChild($this->_roleUser, $deleteOwnAspirasiPermission);
 
-        $likeUsulanPermission              = $this->_auth->createPermission('likeUsulan');
-        $likeUsulanPermission->description = 'Memberikan Like terhadap Usulan yang berstatus Dipublikasikan';
-        $likeUsulanPermission->ruleName    = $likeAspirasiRule->name;
-        $this->_auth->add($likeUsulanPermission);
-        $this->_auth->addChild($this->_roleStaffRW, $likeUsulanPermission);
-        $this->_auth->addChild($this->_roleUser, $likeUsulanPermission);
+        $likeAspirasiPermission              = $this->_auth->createPermission('likeAspirasi');
+        $likeAspirasiPermission->description = 'Memberikan Like terhadap Usulan yang berstatus Dipublikasikan';
+        $likeAspirasiPermission->ruleName    = $likeAspirasiRule->name;
+        $this->_auth->add($likeAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffRW, $likeAspirasiPermission);
+        $this->_auth->addChild($this->_roleUser, $likeAspirasiPermission);
     }
 
     private function revertcreateNewPermissionsMobile()
     {
-        $likeUsulanPermission = $this->_auth->getPermission('likeUsulan');
-        $this->_auth->removeChild($this->_roleUser, $likeUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffRW, $likeUsulanPermission);
-        $this->_auth->remove($likeUsulanPermission);
+        $likeAspirasiPermission = $this->_auth->getPermission('likeAspirasi');
+        $this->_auth->removeChild($this->_roleUser, $likeAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffRW, $likeAspirasiPermission);
+        $this->_auth->remove($likeAspirasiPermission);
 
-        $deleteOwnUsulanPermission = $this->_auth->getPermission('deleteOwnUsulan');
-        $this->_auth->removeChild($this->_roleUser, $deleteOwnUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffRW, $deleteOwnUsulanPermission);
-        $this->_auth->remove($deleteOwnUsulanPermission);
+        $deleteOwnAspirasiPermission = $this->_auth->getPermission('deleteOwnAspirasi');
+        $this->_auth->removeChild($this->_roleUser, $deleteOwnAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffRW, $deleteOwnAspirasiPermission);
+        $this->_auth->remove($deleteOwnAspirasiPermission);
 
-        $editOwnUsulanPermission = $this->_auth->getPermission('editOwnUsulan');
-        $this->_auth->removeChild($this->_roleUser, $editOwnUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffRW, $editOwnUsulanPermission);
-        $this->_auth->remove($editOwnUsulanPermission);
+        $editOwnAspirasiPermission = $this->_auth->getPermission('editOwnAspirasi');
+        $this->_auth->removeChild($this->_roleUser, $editOwnAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffRW, $editOwnAspirasiPermission);
+        $this->_auth->remove($editOwnAspirasiPermission);
 
-        $viewOwnUsulanPermission = $this->_auth->getPermission('viewOwnUsulan');
-        $this->_auth->removeChild($this->_roleUser, $viewOwnUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffRW, $viewOwnUsulanPermission);
-        $this->_auth->remove($viewOwnUsulanPermission);
+        $viewOwnAspirasiPermission = $this->_auth->getPermission('viewOwnAspirasi');
+        $this->_auth->removeChild($this->_roleUser, $viewOwnAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffRW, $viewOwnAspirasiPermission);
+        $this->_auth->remove($viewOwnAspirasiPermission);
 
-        $createUsulanPermission = $this->_auth->getPermission('createUsulan');
-        $this->_auth->removeChild($this->_roleUser, $createUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffRW, $createUsulanPermission);
-        $this->_auth->remove($createUsulanPermission);
+        $createAspirasiPermission = $this->_auth->getPermission('createAspirasi');
+        $this->_auth->removeChild($this->_roleUser, $createAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffRW, $createAspirasiPermission);
+        $this->_auth->remove($createAspirasiPermission);
 
         $likeAspirasiRule = $this->_auth->getRule('canLikeAspirasi');
         $editOwnAspirasiRule = $this->_auth->getRule('canEditOwnAspirasi');
@@ -190,26 +190,26 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
 
     private function revertcreateNewPermissionsWebadmin()
     {
-        $acceptRejectAllUsulanPermission = $this->_auth->getPermission('acceptRejectAllUsulan');
-        $this->_auth->removeChild($this->_roleStaffProv, $acceptRejectAllUsulanPermission);
-        $this->_auth->remove($acceptRejectAllUsulanPermission);
+        $acceptRejectAllAspirasiPermission = $this->_auth->getPermission('acceptRejectAllAspirasi');
+        $this->_auth->removeChild($this->_roleStaffProv, $acceptRejectAllAspirasiPermission);
+        $this->_auth->remove($acceptRejectAllAspirasiPermission);
 
-        $viewAddressedCascadedUsulanPermission = $this->_auth->getPermission('viewAddressedCascadedUsulan');
-        $this->_auth->removeChild($this->_roleStaffKel, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffKec, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffKabkota, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffProv, $viewAddressedCascadedUsulanPermission);
-        $this->_auth->remove($viewAddressedCascadedUsulanPermission);
+        $viewAddressedCascadedAspirasiPermission = $this->_auth->getPermission('viewAddressedCascadedAspirasi');
+        $this->_auth->removeChild($this->_roleStaffKel, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffKec, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffKabkota, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffProv, $viewAddressedCascadedAspirasiPermission);
+        $this->_auth->remove($viewAddressedCascadedAspirasiPermission);
 
-        $viewAddressedUsulanPermission = $this->_auth->getPermission('viewAddressedUsulan');
-        $this->_auth->removeChild($this->_roleStaffKel, $viewAddressedUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffKec, $viewAddressedUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffKabkota, $viewAddressedUsulanPermission);
-        $this->_auth->removeChild($this->_roleStaffProv, $viewAddressedUsulanPermission);
-        $this->_auth->remove($viewAddressedUsulanPermission);
+        $viewAddressedAspirasiPermission = $this->_auth->getPermission('viewAddressedAspirasi');
+        $this->_auth->removeChild($this->_roleStaffKel, $viewAddressedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffKec, $viewAddressedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffKabkota, $viewAddressedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffProv, $viewAddressedAspirasiPermission);
+        $this->_auth->remove($viewAddressedAspirasiPermission);
 
-        $viewAllUsulanPermission = $this->_auth->getPermission('viewAllUsulan');
-        $this->_auth->remove($viewAllUsulanPermission);
+        $viewAllAspirasiPermission = $this->_auth->getPermission('viewAllAspirasi');
+        $this->_auth->remove($viewAllAspirasiPermission);
 
         $acceptRejectAspirasiRule = $this->_auth->getRule('canAcceptRejectAllAspirasi');
         $this->_auth->remove($acceptRejectAspirasiRule);
