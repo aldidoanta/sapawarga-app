@@ -49,18 +49,50 @@ class AspirasiController extends ActiveController
             'rules' => [
                 [
                     'allow'   => true,
-                    'actions' => ['index', 'view', 'create', 'update', 'delete', 'me', 'likes', 'approval'],
-                    'roles'   => ['aspirasiWebadminManage'],
+                    'roles'   => ['admin'],
                 ],
                 [
                     'allow'   => true,
                     'actions' => ['index', 'view'],
-                    'roles'   => ['aspirasiWebadminView'],
+                    'roles'   => [
+                        'viewAllAspirasi',
+                        'viewAddressedAspirasi',
+                        'viewAddressedCascadedAspirasi'
+                    ],
                 ],
                 [
                     'allow'   => true,
-                    'actions' => ['index', 'view', 'create', 'update', 'delete', 'me', 'likes'],
-                    'roles'   => ['aspirasiMobile'],
+                    'actions' => ['create'],
+                    'roles'   => ['createAspirasi'],
+                ],
+                [
+                    'allow'      => true,
+                    'actions'    => ['update'],
+                    'roles'      => ['editOwnAspirasi'],
+                    'roleParams' => $this->roleParamsCallback(),
+                ],
+                [
+                    'allow'   => true,
+                    'actions' => ['delete'],
+                    'roles'   => ['deleteOwnAspirasi'],
+                ],
+                [
+                    'allow'      => true,
+                    'actions'    => ['approval'],
+                    'roles'      => ['acceptRejectAllAspirasi'],
+                    'roleParams' => $this->roleParamsCallback(),
+                ],
+                [
+                    'allow'      => true,
+                    'actions'    => ['likes'],
+                    'roles'      => ['likeAspirasi'],
+                    'roleParams' => $this->roleParamsCallback(),
+                ],
+                [
+                    'allow'      => true,
+                    'actions'    => ['me'],
+                    'roles'      => ['viewOwnAspirasi'],
+                    'roleParams' => $this->roleParamsCallback(),
                 ],
             ],
         ];
@@ -242,6 +274,15 @@ class AspirasiController extends ActiveController
         $params = Yii::$app->request->getQueryParams();
 
         return $search->search($params, true);
+    }
+
+    /**
+     * Contains logic to get parameter value for roleParams,
+     * required for AccessControl purposes
+     */
+    protected function roleParamsCallback()
+    {
+        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
     }
 
     /**
