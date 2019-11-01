@@ -106,7 +106,6 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $acceptRejectAllAspirasiPermission->ruleName    = $acceptRejectAspirasiRule->name;
         $this->_auth->add($acceptRejectAllAspirasiPermission);
         $this->_auth->addChild($this->_roleStaffProv, $acceptRejectAllAspirasiPermission);
-
     }
 
     private function createNewPermissionsMobile()
