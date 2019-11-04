@@ -110,10 +110,8 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
 
     private function createNewPermissionsMobile()
     {
-        $viewOwnAspirasiRule = new Aspirasi\ViewOwnAspirasiRule;
         $editOwnAspirasiRule = new Aspirasi\EditOwnAspirasiRule;
         $likeAspirasiRule = new Aspirasi\LikeAspirasiRule;
-        $this->_auth->add($viewOwnAspirasiRule);
         $this->_auth->add($editOwnAspirasiRule);
         $this->_auth->add($likeAspirasiRule);
 
@@ -125,7 +123,6 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
 
         $viewOwnAspirasiPermission              = $this->_auth->createPermission('viewOwnAspirasi');
         $viewOwnAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang dibuat sendiri';
-        $viewOwnAspirasiPermission->ruleName    = $viewOwnAspirasiRule->name;
         $this->_auth->add($viewOwnAspirasiPermission);
         $this->_auth->addChild($this->_roleStaffRW, $viewOwnAspirasiPermission);
         $this->_auth->addChild($this->_roleUser, $viewOwnAspirasiPermission);
@@ -181,10 +178,8 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
 
         $likeAspirasiRule = $this->_auth->getRule('canLikeAspirasi');
         $editOwnAspirasiRule = $this->_auth->getRule('canEditOwnAspirasi');
-        $viewOwnAspirasiRule = $this->_auth->getRule('canViewOwnAspirasi');
         $this->_auth->remove($likeAspirasiRule);
         $this->_auth->remove($editOwnAspirasiRule);
-        $this->_auth->remove($viewOwnAspirasiRule);
     }
 
     private function revertcreateNewPermissionsWebadmin()
