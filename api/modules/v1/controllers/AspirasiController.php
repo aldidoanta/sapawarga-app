@@ -148,13 +148,6 @@ class AspirasiController extends ActiveController
     {
         $model = $this->findModel($id);
 
-        $this->checkAccess('update', $model);
-
-        // Allowed to update if status Draft & Rejected only
-        if (! in_array($model->status, [Aspirasi::STATUS_DRAFT, Aspirasi::STATUS_APPROVAL_REJECTED])) {
-            throw new ForbiddenHttpException();
-        }
-
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
         if ($model->validate() && $model->save()) {
@@ -184,28 +177,12 @@ class AspirasiController extends ActiveController
     {
         $model = $this->findModel($id);
 
-        // Allowed to update if status Draft & Rejected only
-        if (! in_array($model->status, [Aspirasi::STATUS_DRAFT, Aspirasi::STATUS_APPROVAL_REJECTED])) {
-            throw new ForbiddenHttpException(
-                'Forbidden action: only allowed status are STATUS_DRAFT, STATUS_APPROVAL_REJECTED'
-            );
-        }
-
-        $this->checkAccess('delete', $model);
-
         return $this->applySoftDelete($model);
     }
 
     public function actionApproval($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->status !== Aspirasi::STATUS_APPROVAL_PENDING) {
-            $response = Yii::$app->getResponse();
-            $response->setStatusCode(400);
-
-            return 'Bad Request: Invalid Object Status';
-        }
 
         return $this->processApproval($model);
     }
@@ -282,24 +259,6 @@ class AspirasiController extends ActiveController
         $params = Yii::$app->request->getQueryParams();
 
         return $search->search($params, true);
-    }
-
-    /**
-     * Checks the privilege of the current user.
-     *
-     * This method should be overridden to check whether the current user has the privilege
-     * to run the specified action against the specified data model.
-     * If the user does not have access, a [[ForbiddenHttpException]] should be thrown.
-     *
-     * @param string $action the ID of the action to be executed
-     * @param object $model the model to be accessed. If null, it means no specific model is being accessed.
-     * @param array $params additional parameters
-     */
-    public function checkAccess($action, $model = null, $params = [])
-    {
-        if (in_array($action, ['update', 'delete']) && $model->author_id !== Yii::$app->user->getId()) {
-            throw new ForbiddenHttpException(Yii::t('app', 'error.role.permission'));
-        }
     }
 
     /**
