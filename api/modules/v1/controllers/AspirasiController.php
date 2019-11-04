@@ -69,30 +69,38 @@ class AspirasiController extends ActiveController
                     'allow'      => true,
                     'actions'    => ['update'],
                     'roles'      => ['editOwnAspirasi'],
-                    'roleParams' => $this->roleParamsCallback(),
+                    'roleParams' => function ($rule) {
+                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                    },
                 ],
                 [
                     'allow'   => true,
                     'actions' => ['delete'],
                     'roles'   => ['deleteOwnAspirasi'],
+                    'roleParams' => function ($rule) {
+                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                    },
                 ],
                 [
                     'allow'      => true,
                     'actions'    => ['approval'],
                     'roles'      => ['acceptRejectAllAspirasi'],
-                    'roleParams' => $this->roleParamsCallback(),
+                    'roleParams' => function ($rule) {
+                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                    },
                 ],
                 [
                     'allow'      => true,
                     'actions'    => ['likes'],
                     'roles'      => ['likeAspirasi'],
-                    'roleParams' => $this->roleParamsCallback(),
+                    'roleParams' => function ($rule) {
+                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                    },
                 ],
                 [
                     'allow'      => true,
                     'actions'    => ['me'],
                     'roles'      => ['viewOwnAspirasi'],
-                    'roleParams' => $this->roleParamsCallback(),
                 ],
             ],
         ];
@@ -274,15 +282,6 @@ class AspirasiController extends ActiveController
         $params = Yii::$app->request->getQueryParams();
 
         return $search->search($params, true);
-    }
-
-    /**
-     * Contains logic to get parameter value for roleParams,
-     * required for AccessControl purposes
-     */
-    protected function roleParamsCallback()
-    {
-        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
     }
 
     /**
