@@ -85,14 +85,6 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $viewAllAspirasiPermission->description = 'Mengakses daftar dan detail semua Usulan';
         $this->_auth->add($viewAllAspirasiPermission);
 
-        $viewAddressedAspirasiPermission              = $this->_auth->createPermission('viewAddressedAspirasi');
-        $viewAddressedAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang dialamatkan kepada unitnya';
-        $this->_auth->add($viewAddressedAspirasiPermission);
-        $this->_auth->addChild($this->_roleStaffProv, $viewAddressedAspirasiPermission);
-        $this->_auth->addChild($this->_roleStaffKabkota, $viewAddressedAspirasiPermission);
-        $this->_auth->addChild($this->_roleStaffKec, $viewAddressedAspirasiPermission);
-        $this->_auth->addChild($this->_roleStaffKel, $viewAddressedAspirasiPermission);
-
         $viewAddressedCascadedAspirasiPermission              = $this->_auth->createPermission('viewAddressedCascadedAspirasi');
         $viewAddressedCascadedAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang dialamatkan kepada unitnya dengan hirarki level di bawahnya';
         $this->_auth->add($viewAddressedCascadedAspirasiPermission);
@@ -114,6 +106,12 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $likeAspirasiRule = new Aspirasi\LikeAspirasiRule;
         $this->_auth->add($editOwnAspirasiRule);
         $this->_auth->add($likeAspirasiRule);
+
+        $viewPublishedAspirasiPermission              = $this->_auth->createPermission('viewPublishedAspirasi');
+        $viewPublishedAspirasiPermission->description = 'Mengakses daftar dan detail Usulan yang telah dipublikasikan';
+        $this->_auth->add($viewPublishedAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffRW, $viewPublishedAspirasiPermission);
+        $this->_auth->addChild($this->_roleUser, $viewPublishedAspirasiPermission);
 
         $createAspirasiPermission              = $this->_auth->createPermission('createAspirasi');
         $createAspirasiPermission->description = 'Membuat Usulan Baru';
@@ -176,6 +174,11 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $this->_auth->removeChild($this->_roleStaffRW, $createAspirasiPermission);
         $this->_auth->remove($createAspirasiPermission);
 
+        $viewPublishedAspirasiPermission = $this->_auth->getPermission('viewPublishedAspirasi');
+        $this->_auth->removeChild($this->_roleUser, $viewPublishedAspirasiPermission);
+        $this->_auth->removeChild($this->_roleStaffRW, $viewPublishedAspirasiPermission);
+        $this->_auth->remove($viewPublishedAspirasiPermission);
+
         $likeAspirasiRule = $this->_auth->getRule('canLikeAspirasi');
         $editOwnAspirasiRule = $this->_auth->getRule('canEditOwnAspirasi');
         $this->_auth->remove($likeAspirasiRule);
@@ -194,13 +197,6 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $this->_auth->removeChild($this->_roleStaffKabkota, $viewAddressedCascadedAspirasiPermission);
         $this->_auth->removeChild($this->_roleStaffProv, $viewAddressedCascadedAspirasiPermission);
         $this->_auth->remove($viewAddressedCascadedAspirasiPermission);
-
-        $viewAddressedAspirasiPermission = $this->_auth->getPermission('viewAddressedAspirasi');
-        $this->_auth->removeChild($this->_roleStaffKel, $viewAddressedAspirasiPermission);
-        $this->_auth->removeChild($this->_roleStaffKec, $viewAddressedAspirasiPermission);
-        $this->_auth->removeChild($this->_roleStaffKabkota, $viewAddressedAspirasiPermission);
-        $this->_auth->removeChild($this->_roleStaffProv, $viewAddressedAspirasiPermission);
-        $this->_auth->remove($viewAddressedAspirasiPermission);
 
         $viewAllAspirasiPermission = $this->_auth->getPermission('viewAllAspirasi');
         $this->_auth->remove($viewAllAspirasiPermission);
