@@ -82,14 +82,6 @@ class AspirasiSearch extends Aspirasi
         return $this->getQueryAll($query, $params);
     }
 
-    public function searchMobile(&$params, $onlyMe = false)
-    {
-    }
-
-    public function searchWebadmin(&$params, $onlyMe = false)
-    {
-    }
-
     protected function getQueryMe($query, $params)
     {
         $query->andFilterWhere(['author_id' => $this->author_id]);
@@ -106,7 +98,7 @@ class AspirasiSearch extends Aspirasi
         $pageLimit = Arr::get($params, 'limit');
         $sortBy    = Arr::get($params, 'sort_by', 'created_at');
         $sortOrder = Arr::get($params, 'sort_order', 'descending');
-        $sortOrder = $this->getSortOrder($sortOrder);
+        $sortOrder = ModelHelper::getSortOrder($sortOrder);
 
         return new ActiveDataProvider([
             'query' => $query,
@@ -126,7 +118,7 @@ class AspirasiSearch extends Aspirasi
         $pageLimit = Arr::get($params, 'limit');
         $sortBy    = Arr::get($params, 'sort_by', 'created_at');
         $sortOrder = Arr::get($params, 'sort_order', 'descending');
-        $sortOrder = $this->getSortOrder($sortOrder);
+        $sortOrder = ModelHelper::getSortOrder($sortOrder);
 
         $provider = new ActiveDataProvider([
             'query' => $query,
@@ -151,15 +143,15 @@ class AspirasiSearch extends Aspirasi
         $filterStatusList = [];
 
         // Jika User, hanya bisa melihat yang status published
-        if (Yii::$app->user->can('aspirasiMobile')) {
+        if (Yii::$app->user->can('viewPublishedAspirasi')) {
             $filterStatusList = [
                 Aspirasi::STATUS_PUBLISHED,
             ];
         }
 
         // Filter status untuk role Admin hingga staffKel
-        if (Yii::$app->user->can('aspirasiWebadminManage')
-            || Yii::$app->user->can('aspirasiWebadminView')) {
+        if (Yii::$app->user->can('viewAllAspirasi')
+            || Yii::$app->user->can('viewAddressedCascadedAspirasi')) {
             if (Arr::has($params, 'status')) {
                 $filterStatusList = [ $params['status'] ];
             } else {
@@ -182,7 +174,7 @@ class AspirasiSearch extends Aspirasi
             ModelHelper::filterByAreaTopDown($query, $params);
         } else {
             // Jika Staf Kab/Kota, Staf Kec, dan Staf Kel, default filter berdasarkan area Staf tersebut
-            if (Yii::$app->user->can('aspirasiWebadminView') === true) {
+            if (Yii::$app->user->can('viewAddressedCascadedAspirasi') === true) {
                 $areaParams = [
                 'kabkota_id' => $this->user->kabkota_id ?? null,
                 'kec_id' => $this->user->kec_id ?? null,
@@ -197,19 +189,6 @@ class AspirasiSearch extends Aspirasi
     {
         if (Arr::has($params, 'category_id')) {
             $query->andFilterWhere(['category_id' => $params['category_id']]);
-        }
-    }
-
-    protected function getSortOrder($sortOrder)
-    {
-        switch ($sortOrder) {
-            case 'descending':
-                return SORT_DESC;
-                break;
-            case 'ascending':
-            default:
-                return SORT_ASC;
-                break;
         }
     }
 }

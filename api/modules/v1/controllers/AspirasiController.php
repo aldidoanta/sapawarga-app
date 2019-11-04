@@ -56,8 +56,8 @@ class AspirasiController extends ActiveController
                     'actions' => ['index', 'view'],
                     'roles'   => [
                         'viewAllAspirasi',
-                        'viewAddressedAspirasi',
-                        'viewAddressedCascadedAspirasi'
+                        'viewAddressedCascadedAspirasi',
+                        'viewPublishedAspirasi'
                     ],
                 ],
                 [
