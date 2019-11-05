@@ -468,8 +468,8 @@ class AspirasiCest
         ]);
     }
 
-    // Aspirasi Create
-    public function postCreateTest(ApiTester $I)
+    // createAspirasi
+    public function createAspirasiTest(ApiTester $I)
     {
         $I->amUser('user');
 
@@ -496,47 +496,8 @@ class AspirasiCest
         ]);
     }
 
-    // Aspirasi Edit
-    public function postUpdateTest(ApiTester $I)
-    {
-        $I->haveInDatabase('aspirasi', [
-            'id'          => 1,
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 0,
-            'category_id' => 9,
-            'author_id'   => 36,
-        ]);
-
-        $I->amUser('user');
-
-        $data = [
-            'title'       => 'Lorem ipsum',
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 0,
-            'category_id' => 9,
-            'author_id'   => 36,
-        ];
-
-        $I->sendPUT('/v1/aspirasi/1', $data);
-        $I->canSeeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-
-        $I->seeResponseContainsJson([
-            'success' => true,
-            'status'  => 200,
-        ]);
-    }
-
-    public function userCanUpdateIfStatusDraft(ApiTester $I)
+    // editOwnAspirasi
+    public function canEditOwnAspirasiIfStatusDraftTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -567,7 +528,7 @@ class AspirasiCest
         ]);
     }
 
-    public function userCanUpdateIfStatusRejected(ApiTester $I)
+    public function canEditOwnAspirasiIfStatusRejectedTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -599,7 +560,7 @@ class AspirasiCest
         ]);
     }
 
-    public function userCannotUpdateIfStatusPending(ApiTester $I)
+    public function cannotEditOwnAspirasiIfStatusPendingTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -630,7 +591,7 @@ class AspirasiCest
         ]);
     }
 
-    public function userCannotUpdateIfStatusPublished(ApiTester $I)
+    public function cannotEditOwnAspirasiIfStatusPublishedTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -661,8 +622,39 @@ class AspirasiCest
         ]);
     }
 
-    // Aspirasi Delete
-    public function userCanDeleteIfDraftTest(ApiTester $I)
+    public function cannotEditOwnAspirasiIfNotOwnTest(ApiTester $I)
+    {
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 1,
+            'title'       => 'Lorem ipsum',
+            'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            'kabkota_id'  => 23,
+            'kec_id'      => 6610,
+            'kel_id'      => 6228,
+            'status'      => 0,
+            'category_id' => 9,
+            'author_id'   => 34,
+        ]);
+
+        $I->amUser('user');
+
+        $data = [
+            'title' => 'Lorem ipsum',
+        ];
+
+        $I->sendPUT('/v1/aspirasi/1', $data);
+        $I->canSeeResponseCodeIs(403);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => false,
+            'status'  => 403,
+        ]);
+    }
+
+    // deleteOwnAspirasi
+    public function canDeleteOwnAspirasiIfDraftTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -683,7 +675,7 @@ class AspirasiCest
         $I->canSeeResponseCodeIs(204);
     }
 
-    public function userCanDeleteIfRejectedTest(ApiTester $I)
+    public function canDeleteOwnAspirasiIfRejectedTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -704,7 +696,7 @@ class AspirasiCest
         $I->canSeeResponseCodeIs(204);
     }
 
-    public function userCannotDeleteIfPendingTest(ApiTester $I)
+    public function cannotDeleteOwnAspirasiIfPendingTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -725,7 +717,7 @@ class AspirasiCest
         $I->canSeeResponseCodeIs(403);
     }
 
-    public function userCannotDeleteIfPublishedTest(ApiTester $I)
+    public function cannotDeleteOwnAspirasiIfPublishedTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -746,17 +738,18 @@ class AspirasiCest
         $I->canSeeResponseCodeIs(403);
     }
 
-    public function userCannotDeleteIfUnauthorizedTest(ApiTester $I)
+    public function cannotDeleteOwnAspirasiIfNotOwnTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
             'title'       => 'Lorem ipsum',
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            'kabkota_id'  => 22,
-            'kec_id'      => 446,
-            'kel_id'      => 6082,
-            'status'      => 10,
+            'kabkota_id'  => 23,
+            'kec_id'      => 6610,
+            'kel_id'      => 6228,
+            'rw'          => '002',
+            'status'      => 0,
             'category_id' => 9,
             'author_id'   => 1,
         ]);
@@ -774,7 +767,7 @@ class AspirasiCest
     }
 
     // Aspirasi Like
-    public function postLikeAspirasi(ApiTester $I)
+    public function likeAspirasiTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -785,6 +778,18 @@ class AspirasiCest
             'kec_id'      => 446,
             'kel_id'      => 6082,
             'status'      => 10,
+            'category_id' => 9,
+            'author_id'   => 36,
+        ]);
+
+        $I->haveInDatabase('aspirasi', [
+            'id'          => 2,
+            'title'       => 'Lorem ipsum',
+            'description' => 'desc',
+            'kabkota_id'  => 22,
+            'kec_id'      => 446,
+            'kel_id'      => 6082,
+            'status'      => 5,
             'category_id' => 9,
             'author_id'   => 36,
         ]);
@@ -801,9 +806,18 @@ class AspirasiCest
         ]);
 
         $I->seeInDatabase('aspirasi_likes', ['user_id' => 36, 'aspirasi_id' => 1]);
+
+        $I->sendPOST('/v1/aspirasi/likes/2');
+        $I->canSeeResponseCodeIs(403);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => false,
+            'status'  => 403,
+        ]);
     }
 
-    public function postDislikeAspirasi(ApiTester $I)
+    public function dislikeAspirasiTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -838,7 +852,7 @@ class AspirasiCest
     }
 
     // Aspirasi Approval
-    public function staffKabkotaKecKelApproveUnauthorizedTest(ApiTester $I)
+    public function acceptRejectAllAspirasiUnauthorizedTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -884,7 +898,7 @@ class AspirasiCest
         ]);
     }
 
-    public function staffProvRejectTest(ApiTester $I)
+    public function rejectAllAspirasiTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
@@ -917,7 +931,7 @@ class AspirasiCest
         ]);
     }
 
-    public function staffProvPublishTest(ApiTester $I)
+    public function acceptAllAspirasiTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,
