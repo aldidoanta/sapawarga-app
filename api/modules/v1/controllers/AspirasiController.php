@@ -99,7 +99,7 @@ class AspirasiController extends ActiveController
                 ],
                 [
                     'allow'      => true,
-                    'actions'    => ['me'],
+                    'actions'    => ['me', 'view'],
                     'roles'      => ['viewOwnAspirasi'],
                 ],
             ],
