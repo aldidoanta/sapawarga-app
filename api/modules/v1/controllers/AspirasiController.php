@@ -46,66 +46,77 @@ class AspirasiController extends ActiveController
         $behaviors['access'] = [
             'class' => AccessControl::className(),
             'only'  => ['index', 'view', 'create', 'update', 'delete', 'approval', 'likes', 'me'],
-            'rules' => [
-                [
-                    'allow'   => true,
-                    'roles'   => ['admin'],
-                ],
-                [
-                    'allow'   => true,
-                    'actions' => ['index', 'view'],
-                    'roles'   => [
-                        'viewAllAspirasi',
-                        'viewAddressedCascadedAspirasi',
-                        'viewPublishedAspirasi'
-                    ],
-                ],
-                [
-                    'allow'   => true,
-                    'actions' => ['create'],
-                    'roles'   => ['createAspirasi'],
-                ],
-                [
-                    'allow'      => true,
-                    'actions'    => ['update'],
-                    'roles'      => ['editOwnAspirasi'],
-                    'roleParams' => function ($rule) {
-                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
-                    },
-                ],
-                [
-                    'allow'   => true,
-                    'actions' => ['delete'],
-                    'roles'   => ['deleteOwnAspirasi'],
-                    'roleParams' => function ($rule) {
-                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
-                    },
-                ],
-                [
-                    'allow'      => true,
-                    'actions'    => ['approval'],
-                    'roles'      => ['acceptRejectAllAspirasi'],
-                    'roleParams' => function ($rule) {
-                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
-                    },
-                ],
-                [
-                    'allow'      => true,
-                    'actions'    => ['likes'],
-                    'roles'      => ['likeAspirasi'],
-                    'roleParams' => function ($rule) {
-                        return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
-                    },
-                ],
-                [
-                    'allow'      => true,
-                    'actions'    => ['me', 'view'],
-                    'roles'      => ['viewOwnAspirasi'],
-                ],
-            ],
+            'rules' => \array_merge($this->getAdminAndCRUDRules(), $this->getExtraPatternsRules()),
         ];
 
         return $behaviors;
+    }
+
+    protected function getAdminAndCRUDRules()
+    {
+        return [
+            [
+                'allow'   => true,
+                'roles'   => ['admin'],
+            ],
+            [
+                'allow'   => true,
+                'actions' => ['index', 'view'],
+                'roles'   => [
+                    'viewAllAspirasi',
+                    'viewAddressedCascadedAspirasi',
+                    'viewPublishedAspirasi'
+                ],
+            ],
+            [
+                'allow'   => true,
+                'actions' => ['create'],
+                'roles'   => ['createAspirasi'],
+            ],
+            [
+                'allow'      => true,
+                'actions'    => ['update'],
+                'roles'      => ['editOwnAspirasi'],
+                'roleParams' => function ($rule) {
+                    return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                },
+            ],
+            [
+                'allow'   => true,
+                'actions' => ['delete'],
+                'roles'   => ['deleteOwnAspirasi'],
+                'roleParams' => function ($rule) {
+                    return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                },
+            ],
+        ];
+    }
+
+    protected function getExtraPatternsRules()
+    {
+        return [
+            [
+                'allow'      => true,
+                'actions'    => ['approval'],
+                'roles'      => ['acceptRejectAllAspirasi'],
+                'roleParams' => function ($rule) {
+                    return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                },
+            ],
+            [
+                'allow'      => true,
+                'actions'    => ['likes'],
+                'roles'      => ['likeAspirasi'],
+                'roleParams' => function ($rule) {
+                    return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
+                },
+            ],
+            [
+                'allow'      => true,
+                'actions'    => ['me', 'view'],
+                'roles'      => ['viewOwnAspirasi'],
+            ],
+        ];
     }
 
     public function actions()
