@@ -131,16 +131,19 @@ class ImportUserJob extends BaseObject implements JobInterface
             $cells[11]->getValue(),
         ]);
 
+        $roleId = $cells[3]->getValue();
+        $role   = $this->getRoleValue($cells[3]->getValue());
+
         return [
             'username'   => $cells[0]->getValue(),
             'email'      => $cells[1]->getValue(),
             'password'   => $cells[2]->getValue(),
-            'role'       => $this->getRoleValue($cells[3]->getValue()),
+            'role'       => $role,
             'name'       => $cells[4]->getValue(),
             'phone'      => $cells[5]->getValue(),
             'address'    => $cells[6]->getValue(),
-            'rt'         => $cells[7]->getValue(),
-            'rw'         => $cells[8]->getValue(),
+            'rt'         => in_array($roleId, ['TRAINER', 'RW']) ? $cells[7]->getValue() : null,
+            'rw'         => in_array($roleId, ['TRAINER', 'RW']) ? $cells[8]->getValue() : null,
             'kabkota_id' => $kabkota ? $kabkota->id : null,
             'kec_id'     => $kecamatan ? $kecamatan->id : null,
             'kel_id'     => $kelurahan ? $kelurahan->id : null,
@@ -156,7 +159,9 @@ class ImportUserJob extends BaseObject implements JobInterface
 
     protected function notifyImportFailed(Collection $rows)
     {
-        $textBody  = "Validation failed:\n";
+        $textBody  = "Filename: {$this->filePath}\n";
+
+        $textBody .= "Validation failed:\n";
 
         foreach ($rows as $row) {
             $message   = implode(', ', $row['message']);
@@ -170,7 +175,9 @@ class ImportUserJob extends BaseObject implements JobInterface
 
     protected function notifyImportFailedMaxRows()
     {
-        $textBody  = sprintf('Total rows exceeded maximum: %s', $this->maxRows);
+        $textBody  = "Filename: {$this->filePath}\n";
+
+        $textBody .= sprintf('Total rows exceeded maximum: %s', $this->maxRows);
 
         $textBody .= $this->debugProcessTime();
 
@@ -179,7 +186,9 @@ class ImportUserJob extends BaseObject implements JobInterface
 
     protected function notifyImportSuccess(Collection $rows)
     {
-        $textBody  = sprintf("Total imported rows: %s\n", $rows->count());
+        $textBody  = "Filename: {$this->filePath}\n";
+
+        $textBody .= sprintf("Total imported rows: %s\n", $rows->count());
         $textBody .= $this->debugProcessTime();
 
         $this->sendEmail('Import User Success', $textBody);
@@ -187,7 +196,10 @@ class ImportUserJob extends BaseObject implements JobInterface
 
     public function notifyError(Exception $exception)
     {
-        $this->sendEmail('Import User Error', $exception->getMessage());
+        $textBody  = "Filename: {$this->filePath}\n";
+        $textBody .= $exception->getMessage();
+
+        $this->sendEmail('Import User Error', $textBody);
     }
 
     protected function sendEmail($subject, $textBody)
@@ -246,15 +258,15 @@ class ImportUserJob extends BaseObject implements JobInterface
         [$kabkota, $kecamatan, $kelurahan] = $row;
 
         if ($kabkota !== null) {
-            $kabkota = Area::findOne(['name' => $kabkota]);
+            $kabkota = Area::findOne(['depth' => 2, 'name' => $kabkota]);
         }
 
-        if ($kecamatan !== null) {
-            $kecamatan = Area::findOne(['name' => $kecamatan]);
+        if ($kabkota !== null && $kecamatan !== null) {
+            $kecamatan = Area::findOne(['parent_id' => $kabkota->id, 'name' => $kecamatan]);
         }
 
-        if ($kelurahan !== null) {
-            $kelurahan = Area::findOne(['name' => $kelurahan]);
+        if ($kecamatan !== null && $kelurahan !== null) {
+            $kelurahan = Area::findOne(['parent_id' => $kecamatan->id, 'name' => $kelurahan]);
         }
 
         return [$kabkota, $kecamatan, $kelurahan];
