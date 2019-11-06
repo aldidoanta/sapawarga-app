@@ -48,129 +48,40 @@ class m191106_043804_add_type_id_to_news_hoax extends CustomMigration
     private function refactorNewsHoaxCategory()
     {
         // Insert new categories for news_hoax
-        $this->InsertNewCategories();
+        $this->insertNewCategories();
         // Update news_hoax's category value to default value
         $defaultCategoryModel = Category::find()
             ->select('id')
             ->where(['type' => 'newsHoax', 'name' => 'Lainnya'])
             ->asArray()
             ->one();
-        // NewsHoax::updateAll()
+        // NewsHoax::updateAll(['category_id' => $defaultCategoryModel['id']]);
         // Remove old categories that have been moved to type_id
+
     }
 
-    private function InsertNewCategories()
+    private function insertNewCategories()
     {
         $type = NewsHoax::CATEGORY_TYPE;
         $status = Category::STATUS_ACTIVE;
         $now = time();
 
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Regulasi/Hukum',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Lalu Lintas',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'SARA',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Bencana',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Kriminalitas',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Kesehatan',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Peristiwa Tidak Lazim',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Daily Lives',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Politik',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Penipuan',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Opini',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $this->insert('categories', [
-            'type'       => $type,
-            'name'       => 'Lainnya',
-            'meta'       => null,
-            'status'     => $status,
-            'created_at' => $now,
-            'updated_at' => $now,
+        $this->batchInsert('categories', [
+            'type', 'name', 'meta', 'status', 'created_at', 'updated_at',
+        ],
+        [
+            [$type, 'Regulasi/Hukum', null, $status, $now, $now,],
+            [$type, 'Lalu Lintas', null, $status, $now, $now,],
+            [$type, 'SARA', null, $status, $now, $now,],
+            [$type, 'Bencana', null, $status, $now, $now,],
+            [$type, 'Kriminalitas', null, $status, $now, $now,],
+            [$type, 'Kesehatan', null, $status, $now, $now,],
+            [$type, 'Peristiwa Tidak Lazim', null, $status, $now, $now,],
+            [$type, 'Daily Lives', null, $status, $now, $now,],
+            [$type, 'Politik', null, $status, $now, $now,],
+            [$type, 'Penipuan', null, $status, $now, $now,],
+            [$type, 'Opini', null, $status, $now, $now,],
+            [$type, 'Lainnya', null, $status, $now, $now,],
         ]);
     }
 }
