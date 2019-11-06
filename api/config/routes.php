@@ -60,6 +60,10 @@ return [
             'OPTIONS me' => 'options',
             'GET export' => 'export',
             'OPTIONS export' => 'options',
+            'POST import' => 'import',
+            'OPTIONS import' => 'options',
+            'GET import-template' => 'import-template',
+            'OPTIONS import-template' => 'options',
         ]
     ],
     [
@@ -235,6 +239,8 @@ return [
             'OPTIONS aspirasi-most-likes' => 'options',
             'GET aspirasi-counts' => 'aspirasi-counts',
             'OPTIONS aspirasi-counts' => 'options',
+            'GET aspirasi-category-counts' => 'aspirasi-category-counts',
+            'OPTIONS aspirasi-category-counts' => 'options',
             'GET aspirasi-geo' => 'aspirasi-geo',
             'OPTIONS aspirasi-geo' => 'options',
             'GET polling-latest' => 'polling-latest',
@@ -283,5 +289,32 @@ return [
         'extraPatterns' => [
             'OPTIONS {id}' => 'options',
         ]
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v1/news-important',
+        'pluralize' => false,
+        'tokens' => [
+            '{id}' => '<id:\d+>',
+        ],
+        'extraPatterns' => [
+            'OPTIONS {id}' => 'options'
+        ]
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v1/job-type',
+        'pluralize' => true,
+        'tokens' => [
+            '{id}' => '<id:\d+>',
+        ],
+    ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v1/education-level',
+        'pluralize' => true,
+        'tokens' => [
+            '{id}' => '<id:\d+>',
+        ],
     ],
 ];
