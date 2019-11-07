@@ -77,22 +77,25 @@ class m191106_043804_add_type_id_to_news_hoax extends CustomMigration
         $status = Category::STATUS_ACTIVE;
         $now = time();
 
-        $this->batchInsert('categories', [
-            'type', 'name', 'meta', 'status', 'created_at', 'updated_at',
-        ],
-        [
-            [$type, 'Regulasi/Hukum', null, $status, $now, $now,],
-            [$type, 'Lalu Lintas', null, $status, $now, $now,],
-            [$type, 'SARA', null, $status, $now, $now,],
-            [$type, 'Bencana', null, $status, $now, $now,],
-            [$type, 'Kriminalitas', null, $status, $now, $now,],
-            [$type, 'Kesehatan', null, $status, $now, $now,],
-            [$type, 'Peristiwa Tidak Lazim', null, $status, $now, $now,],
-            [$type, 'Daily Lives', null, $status, $now, $now,],
-            [$type, 'Politik', null, $status, $now, $now,],
-            [$type, 'Penipuan', null, $status, $now, $now,],
-            [$type, 'Opini', null, $status, $now, $now,],
-            [$type, 'Lainnya', null, $status, $now, $now,],
-        ]);
+        $this->batchInsert(
+            'categories',
+            [
+                'type', 'name', 'meta', 'status', 'created_at', 'updated_at',
+            ],
+            [
+                [$type, 'Regulasi/Hukum', null, $status, $now, $now,],
+                [$type, 'Lalu Lintas', null, $status, $now, $now,],
+                [$type, 'SARA', null, $status, $now, $now,],
+                [$type, 'Bencana', null, $status, $now, $now,],
+                [$type, 'Kriminalitas', null, $status, $now, $now,],
+                [$type, 'Kesehatan', null, $status, $now, $now,],
+                [$type, 'Peristiwa Tidak Lazim', null, $status, $now, $now,],
+                [$type, 'Daily Lives', null, $status, $now, $now,],
+                [$type, 'Politik', null, $status, $now, $now,],
+                [$type, 'Penipuan', null, $status, $now, $now,],
+                [$type, 'Opini', null, $status, $now, $now,],
+                [$type, 'Lainnya', null, $status, $now, $now,],
+            ]
+        );
     }
 }
