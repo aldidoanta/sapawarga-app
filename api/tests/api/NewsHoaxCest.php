@@ -13,6 +13,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -23,6 +24,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -33,6 +35,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 3,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -63,6 +66,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Active News Hoax',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -73,6 +77,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Deleted News Hoax',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -83,6 +88,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 3,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Inactive News Hoax',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -113,6 +119,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -122,6 +129,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 29,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -151,6 +159,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -160,6 +169,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Consectetur adipiscing elit.',
             'content'     => 'Consectetur adipiscing elit.',
             'cover_path'  => 'covers/test.jpg',
@@ -189,6 +199,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -198,6 +209,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Consectetur adipiscing elit.',
             'content'     => 'Consectetur adipiscing elit.',
             'cover_path'  => 'covers/test.jpg',
@@ -224,6 +236,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -234,6 +247,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -244,6 +258,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 3,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -271,6 +286,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -281,6 +297,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 2,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -291,6 +308,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 3,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -329,6 +347,7 @@ class NewsHoaxCest
 
         $data = [
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -346,6 +365,7 @@ class NewsHoaxCest
 
         $I->seeInDatabase('news_hoax', [
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -358,6 +378,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -378,6 +399,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -402,6 +424,7 @@ class NewsHoaxCest
         $I->seeInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum edited',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
@@ -422,6 +445,7 @@ class NewsHoaxCest
         $I->haveInDatabase('news_hoax', [
             'id'          => 1,
             'category_id' => 28,
+            'type_id'     => 1,
             'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
             'cover_path'  => 'covers/test.jpg',
