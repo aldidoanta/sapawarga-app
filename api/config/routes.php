@@ -317,4 +317,12 @@ return [
             '{id}' => '<id:\d+>',
         ],
     ],
+    [
+        'class' => 'yii\rest\UrlRule',
+        'controller' => 'v1/hoax-type',
+        'pluralize' => true,
+        'tokens' => [
+            '{id}' => '<id:\d+>',
+        ],
+    ],
 ];
