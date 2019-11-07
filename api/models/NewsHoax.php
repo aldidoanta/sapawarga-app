@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\components\ModelHelper;
 use app\validator\InputCleanValidator;
+use Illuminate\Support\Collection;
 use Jdsteam\Sapawarga\Models\Concerns\HasActiveStatus;
 use Jdsteam\Sapawarga\Models\Concerns\HasCategory;
 use Jdsteam\Sapawarga\Models\Contracts\ActiveStatus;
@@ -23,8 +24,10 @@ use yii\db\ActiveRecord;
  * @property string $source_url
  * @property string $source_date
  * @property string $content
- * @property string $category_id
+ * @property int $category_id
  * @property \app\models\Category $category
+ * @property int $type_id
+ * @property \app\models\HoaxType $category
  * @property array $meta
  * @property int $seq
  * @property int $status
@@ -58,7 +61,7 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             [['title', 'content', 'cover_path', 'source_url'], 'safe'],
 
             [
-                ['title', 'category_id', 'cover_path', 'content', 'status'],
+                ['title', 'category_id', 'type_id', 'cover_path', 'content', 'status'],
                 'required',
             ],
 
@@ -70,7 +73,7 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             ['meta', 'default'],
 
 
-            ['category_id', 'integer'],
+            [['category_id', 'type_id'], 'integer'],
             ['status', 'integer'],
             ['seq', 'integer'],
 
@@ -98,6 +101,8 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             'source_url',
             'category_id',
             'category' => 'CategoryField',
+            'type_id',
+            'type' => 'TypeField',
             'meta',
             'seq',
             'status',
@@ -118,6 +123,7 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             'id'          => 'ID',
             'title'       => 'Sumber',
             'category_id' => 'Kategori',
+            'type_id'     => 'Jenis',
             'cover_path'  => 'Cover Path',
             'source_date' => 'Tanggal Berita',
             'source_url'  => 'URL Berita',
@@ -166,5 +172,14 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
         }
 
         return parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function getTypeField()
+    {
+        $configParams = include __DIR__ . '/../config/references/hoax_types.php';
+
+        $records = new Collection($configParams);
+
+        return $records->where('id', '=', $this->type_id)->first();
     }
 }

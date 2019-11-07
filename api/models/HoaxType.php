@@ -18,7 +18,7 @@ use yii\db\ActiveRecord;
  * @property int $created_at
  * @property int $updated_at
  */
-class HoaxTypes extends ActiveRecord
+class HoaxType extends ActiveRecord
 {
     /**
      * {@inheritdoc}
