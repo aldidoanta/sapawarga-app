@@ -116,6 +116,44 @@ class NewsHoaxTest extends Unit
         $this->assertTrue($model->hasErrors('category_id'));
     }
 
+    public function testTypeRequired()
+    {
+        $model = new NewsHoax();
+
+        $model->validate();
+
+        $this->assertTrue($model->hasErrors('type_id'));
+
+        $model->type_id = '';
+
+        $model->validate();
+
+        $this->assertTrue($model->hasErrors('type_id'));
+
+        $model->type_id = 1;
+
+        $model->validate();
+
+        $this->assertFalse($model->hasErrors('type_id'));
+    }
+
+    public function testTypeMustInteger()
+    {
+        $model = new NewsHoax();
+
+        $model->type_id = 1;
+
+        $model->validate();
+
+        $this->assertFalse($model->hasErrors('type_id'));
+
+        $model->type_id = 'xxx';
+
+        $model->validate();
+
+        $this->assertTrue($model->hasErrors('type_id'));
+    }
+
     public function testUrlScheme()
     {
         $model = new NewsHoax();
