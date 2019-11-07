@@ -30,9 +30,11 @@ class NewsHoaxSearch extends News
         $query->andFilterWhere(['id' => $this->id]);
 
         $filterCategoryId = Arr::get($params, 'category_id');
+        $filterTypeId = Arr::get($params, 'type_id');
         $searchKeyword   = Arr::get($params, 'search');
 
         $query->andFilterWhere(['category_id' => $filterCategoryId]);
+        $query->andFilterWhere(['type_id' => $filterTypeId]);
 
         $query->andFilterWhere(['like', 'title', $searchKeyword]);
 
@@ -62,7 +64,11 @@ class NewsHoaxSearch extends News
         return new ActiveDataProvider([
             'query'      => $query,
             'sort'       => [
-                'defaultOrder' => [$sortBy => $sortOrder],
+                'defaultOrder' => [
+                    $sortBy => $sortOrder,
+                    'type_id' => SORT_ASC,
+                    'category.name' => SORT_ASC,
+                ],
                 'attributes' => [
                     'title',
                     'source_date',
@@ -72,6 +78,7 @@ class NewsHoaxSearch extends News
                         'asc'  => ['categories.name' => SORT_ASC],
                         'desc' => ['categories.name' => SORT_DESC],
                     ],
+                    'type_id',
                 ],
             ],
             'pagination' => [

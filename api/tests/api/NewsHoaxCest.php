@@ -154,6 +154,46 @@ class NewsHoaxCest
         $I->assertEquals(1, $data[0]['id']);
     }
 
+    public function getUserListFilterTypeTest(ApiTester $I)
+    {
+        $I->haveInDatabase('news_hoax', [
+            'id'          => 1,
+            'category_id' => 28,
+            'type_id'     => 1,
+            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'  => 'covers/test.jpg',
+            'status'      => 10,
+        ]);
+
+        $I->haveInDatabase('news_hoax', [
+            'id'          => 2,
+            'category_id' => 28,
+            'type_id'     => 2,
+            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'  => 'covers/test.jpg',
+            'status'      => 10,
+        ]);
+
+        $I->amUser('staffrw');
+
+        $I->sendGET("{$this->endpoint}?type_id=1");
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
+
+        $I->seeHttpHeader('X-Pagination-Total-Count', 1);
+
+        $data = $I->grabDataFromResponseByJsonPath('$.data.items[0]');
+
+        $I->assertEquals(1, $data[0]['id']);
+    }
+
     public function getUserListSearchTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
