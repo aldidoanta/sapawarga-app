@@ -51,6 +51,7 @@ use yii\web\Request as WebRequest;
  * @property string $push_token
  * @property string $last_access_at
  * @property string $account_confirmed_at
+ * @property string $profile_updated_at
  *
  * @package app\models
  */
@@ -310,7 +311,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     public function getLastAccessAtField()
     {
-        return $this->last_access_at !== null ? (new Carbon($this->last_access_at))->toISOString() : null;
+        return $this->last_access_at !== null ? (new Carbon($this->last_access_at))->timestamp : null;
     }
 
     public function getEducationLevelField()
