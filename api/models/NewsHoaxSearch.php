@@ -61,6 +61,11 @@ class NewsHoaxSearch extends News
         $sortOrder = Arr::get($params, 'sort_order', 'descending');
         $sortOrder = ModelHelper::getSortOrder($sortOrder);
 
+        return $this->getActiveDataProvider($query, $sortBy, $sortOrder, $pageLimit);
+    }
+
+    protected function getActiveDataProvider($query, $sortBy, $sortOrder, $pageLimit)
+    {
         return new ActiveDataProvider([
             'query'      => $query,
             'sort'       => [
