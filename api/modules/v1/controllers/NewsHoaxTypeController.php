@@ -2,15 +2,15 @@
 
 namespace app\modules\v1\controllers;
 
-use app\models\HoaxType;
+use app\models\NewsHoaxType;
 use yii\filters\AccessControl;
 
 /**
- * HoaxTypeController implements the CRUD actions for HoaxType model.
+ * NewsHoaxTypeController implements the CRUD actions for NewsHoaxType model.
  */
-class HoaxTypeController extends ActiveController
+class NewsHoaxTypeController extends ActiveController
 {
-    public $modelClass = HoaxType::class;
+    public $modelClass = NewsHoaxType::class;
 
     public function behaviors()
     {
@@ -47,7 +47,7 @@ class HoaxTypeController extends ActiveController
 
     public function actionIndex()
     {
-        $hoaxTypes = include __DIR__ . '/../../../config/references/hoax_types.php';
+        $hoaxTypes = include __DIR__ . '/../../../config/references/news_hoax_types.php';
         $title = array_column($hoaxTypes, 'title');
         array_multisort($title, SORT_ASC, $hoaxTypes);
         return [

@@ -27,7 +27,7 @@ use yii\db\ActiveRecord;
  * @property int $category_id
  * @property \app\models\Category $category
  * @property int $type_id
- * @property \app\models\HoaxType $category
+ * @property \app\models\NewsHoaxType $type
  * @property array $meta
  * @property int $seq
  * @property int $status
@@ -176,7 +176,7 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
 
     public function getTypeField()
     {
-        $configParams = include __DIR__ . '/../config/references/hoax_types.php';
+        $configParams = include __DIR__ . '/../config/references/news_hoax_types.php';
 
         $records = new Collection($configParams);
 

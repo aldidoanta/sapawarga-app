@@ -7,7 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
- * Currently table "hoax_types" does not exist.
+ * Currently table "news_hoax_types" does not exist.
  *
  * @property int $id
  * @property string $title
@@ -18,14 +18,14 @@ use yii\db\ActiveRecord;
  * @property int $created_at
  * @property int $updated_at
  */
-class HoaxType extends ActiveRecord
+class NewsHoaxType extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'hoax_types';
+        return 'news_hoax_types';
     }
 
     /**

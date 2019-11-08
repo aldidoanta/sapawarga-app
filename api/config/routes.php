@@ -319,7 +319,7 @@ return [
     ],
     [
         'class' => 'yii\rest\UrlRule',
-        'controller' => 'v1/hoax-type',
+        'controller' => 'v1/news-hoax-type',
         'pluralize' => true,
         'tokens' => [
             '{id}' => '<id:\d+>',
