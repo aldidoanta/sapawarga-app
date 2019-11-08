@@ -13,7 +13,7 @@ class m191106_043804_add_type_id_to_news_hoax extends CustomMigration
      */
     public function safeUp()
     {
-        $this->addColumn('news_hoax', 'type_id', $this->integer()->notNull()->after('category_id'));
+        $this->addColumn('news_hoax', 'hoax_type_id', $this->integer()->notNull()->after('category_id'));
         $this->assignTypeId();
         $this->refactorNewsHoaxCategory();
     }
@@ -41,7 +41,7 @@ class m191106_043804_add_type_id_to_news_hoax extends CustomMigration
         foreach ($newsHoaxArray as $newsHoaxItem) {
             $hoaxTypeIndex = array_search($newsHoaxItem['name'], $hoaxTypeTitleColumn);
             $typeId = $hoaxTypes[$hoaxTypeIndex]['id'];
-            $this->update('news_hoax', ['type_id' => $typeId], ['id' => $newsHoaxItem['id']]);
+            $this->update('news_hoax', ['hoax_type_id' => $typeId], ['id' => $newsHoaxItem['id']]);
         }
     }
 
@@ -58,7 +58,7 @@ class m191106_043804_add_type_id_to_news_hoax extends CustomMigration
             ->one();
         $this->update('news_hoax', ['category_id' => $defaultCategoryModel['id']]);
 
-        // Remove old categories that have been moved to type_id
+        // Remove old categories that have been moved to hoax_type_id
         $hoaxTypes = include __DIR__ . '/../config/references/news_hoax_types.php';
         $hoaxTypeTitleColumn = array_column($hoaxTypes, 'title');
         $this->delete(

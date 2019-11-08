@@ -116,42 +116,42 @@ class NewsHoaxTest extends Unit
         $this->assertTrue($model->hasErrors('category_id'));
     }
 
-    public function testTypeRequired()
+    public function testHoaxTypeRequired()
     {
         $model = new NewsHoax();
 
         $model->validate();
 
-        $this->assertTrue($model->hasErrors('type_id'));
+        $this->assertTrue($model->hasErrors('hoax_type_id'));
 
-        $model->type_id = '';
-
-        $model->validate();
-
-        $this->assertTrue($model->hasErrors('type_id'));
-
-        $model->type_id = 1;
+        $model->hoax_type_id = '';
 
         $model->validate();
 
-        $this->assertFalse($model->hasErrors('type_id'));
+        $this->assertTrue($model->hasErrors('hoax_type_id'));
+
+        $model->hoax_type_id = 1;
+
+        $model->validate();
+
+        $this->assertFalse($model->hasErrors('hoax_type_id'));
     }
 
-    public function testTypeMustInteger()
+    public function testHoaxTypeMustInteger()
     {
         $model = new NewsHoax();
 
-        $model->type_id = 1;
+        $model->hoax_type_id = 1;
 
         $model->validate();
 
-        $this->assertFalse($model->hasErrors('type_id'));
+        $this->assertFalse($model->hasErrors('hoax_type_id'));
 
-        $model->type_id = 'xxx';
+        $model->hoax_type_id = 'xxx';
 
         $model->validate();
 
-        $this->assertTrue($model->hasErrors('type_id'));
+        $this->assertTrue($model->hasErrors('hoax_type_id'));
     }
 
     public function testUrlScheme()

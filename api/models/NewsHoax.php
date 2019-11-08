@@ -26,8 +26,8 @@ use yii\db\ActiveRecord;
  * @property string $content
  * @property int $category_id
  * @property \app\models\Category $category
- * @property int $type_id
- * @property \app\models\NewsHoaxType $type
+ * @property int $hoax_type_id
+ * @property \app\models\NewsHoaxType $hoax_type
  * @property array $meta
  * @property int $seq
  * @property int $status
@@ -61,7 +61,7 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             [['title', 'content', 'cover_path', 'source_url'], 'safe'],
 
             [
-                ['title', 'category_id', 'type_id', 'cover_path', 'content', 'status'],
+                ['title', 'category_id', 'hoax_type_id', 'cover_path', 'content', 'status'],
                 'required',
             ],
 
@@ -73,7 +73,7 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             ['meta', 'default'],
 
 
-            [['category_id', 'type_id'], 'integer'],
+            [['category_id', 'hoax_type_id'], 'integer'],
             ['status', 'integer'],
             ['seq', 'integer'],
 
@@ -101,8 +101,8 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
             'source_url',
             'category_id',
             'category' => 'CategoryField',
-            'type_id',
-            'type' => 'TypeField',
+            'hoax_type_id',
+            'hoax_type' => 'HoaxTypeField',
             'meta',
             'seq',
             'status',
@@ -120,16 +120,16 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
     public function attributeLabels()
     {
         return [
-            'id'          => 'ID',
-            'title'       => 'Sumber',
-            'category_id' => 'Kategori',
-            'type_id'     => 'Jenis',
-            'cover_path'  => 'Cover Path',
-            'source_date' => 'Tanggal Berita',
-            'source_url'  => 'URL Berita',
-            'content'     => 'Konten Berita',
-            'meta'        => 'Meta',
-            'status'      => 'Status',
+            'id'           => 'ID',
+            'title'        => 'Sumber',
+            'category_id'  => 'Kategori',
+            'hoax_type_id' => 'Jenis',
+            'cover_path'   => 'Cover Path',
+            'source_date'  => 'Tanggal Berita',
+            'source_url'   => 'URL Berita',
+            'content'      => 'Konten Berita',
+            'meta'         => 'Meta',
+            'status'       => 'Status',
         ];
     }
 
@@ -174,12 +174,12 @@ class NewsHoax extends ActiveRecord implements ActiveStatus
         return parent::afterSave($insert, $changedAttributes);
     }
 
-    public function getTypeField()
+    public function getHoaxTypeField()
     {
         $configParams = include __DIR__ . '/../config/references/news_hoax_types.php';
 
         $records = new Collection($configParams);
 
-        return $records->where('id', '=', $this->type_id)->first();
+        return $records->where('id', '=', $this->hoax_type_id)->first();
     }
 }

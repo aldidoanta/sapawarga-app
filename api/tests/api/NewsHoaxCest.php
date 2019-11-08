@@ -11,35 +11,35 @@ class NewsHoaxCest
 
         // ACTIVE
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         // DELETED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => -1,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => -1,
         ]);
 
         // DISABLED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 3,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 0,
+            'id'           => 3,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 0,
         ]);
 
         $I->amUser('staffrw');
@@ -64,35 +64,35 @@ class NewsHoaxCest
     {
         // ACTIVE
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Active News Hoax',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Active News Hoax',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         // DELETED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Deleted News Hoax',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => -1,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Deleted News Hoax',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => -1,
         ]);
 
         // DISABLED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 3,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Inactive News Hoax',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 0,
+            'id'           => 3,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Inactive News Hoax',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 0,
         ]);
 
         $I->amStaff('saberhoax');
@@ -117,23 +117,23 @@ class NewsHoaxCest
     public function getUserListFilterCategoryTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 29,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 2,
+            'category_id'  => 29,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amUser('staffrw');
@@ -154,31 +154,31 @@ class NewsHoaxCest
         $I->assertEquals(1, $data[0]['id']);
     }
 
-    public function getUserListFilterTypeTest(ApiTester $I)
+    public function getUserListFilterHoaxTypeTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 2,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 2,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amUser('staffrw');
 
-        $I->sendGET("{$this->endpoint}?type_id=1");
+        $I->sendGET("{$this->endpoint}?hoax_type_id=1");
         $I->canSeeResponseCodeIs(200);
         $I->seeResponseIsJson();
 
@@ -197,23 +197,23 @@ class NewsHoaxCest
     public function getUserListSearchTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Consectetur adipiscing elit.',
-            'content'     => 'Consectetur adipiscing elit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Consectetur adipiscing elit.',
+            'content'      => 'Consectetur adipiscing elit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amUser('staffrw');
@@ -237,23 +237,23 @@ class NewsHoaxCest
     public function getUserListSearchNotFoundTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Consectetur adipiscing elit.',
-            'content'     => 'Consectetur adipiscing elit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Consectetur adipiscing elit.',
+            'content'      => 'Consectetur adipiscing elit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amUser('staffrw');
@@ -274,35 +274,35 @@ class NewsHoaxCest
     {
         // ACTIVE
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         // DELETED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => -1,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => -1,
         ]);
 
         // DISABLED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 3,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 0,
+            'id'           => 3,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 0,
         ]);
 
         $I->amUser('staffrw');
@@ -324,35 +324,35 @@ class NewsHoaxCest
     {
         // ACTIVE
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         // DELETED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 2,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => -1,
+            'id'           => 2,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => -1,
         ]);
 
         // DISABLED
         $I->haveInDatabase('news_hoax', [
-            'id'          => 3,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 0,
+            'id'           => 3,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 0,
         ]);
 
         $I->amStaff('saberhoax');
@@ -386,12 +386,12 @@ class NewsHoaxCest
         $I->amStaff('saberhoax');
 
         $data = [
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ];
 
         $I->sendPOST($this->endpoint, $data);
@@ -404,25 +404,25 @@ class NewsHoaxCest
         ]);
 
         $I->seeInDatabase('news_hoax', [
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
     }
 
     public function postUserUpdateUnauthorizedTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amUser('staffrw');
@@ -437,13 +437,13 @@ class NewsHoaxCest
     public function postStaffUpdateTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amStaff('saberhoax');
@@ -462,13 +462,13 @@ class NewsHoaxCest
         ]);
 
         $I->seeInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum edited',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum edited',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
     }
 
@@ -483,13 +483,13 @@ class NewsHoaxCest
     public function deleteStaffTest(ApiTester $I)
     {
         $I->haveInDatabase('news_hoax', [
-            'id'          => 1,
-            'category_id' => 28,
-            'type_id'     => 1,
-            'title'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            'content'     => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
-            'cover_path'  => 'covers/test.jpg',
-            'status'      => 10,
+            'id'           => 1,
+            'category_id'  => 28,
+            'hoax_type_id' => 1,
+            'title'        => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'content'      => 'Maecenas porttitor suscipit ex vitae hendrerit. Nunc sollicitudin quam et libero fringilla, eget varius nunc hendrerit.',
+            'cover_path'   => 'covers/test.jpg',
+            'status'       => 10,
         ]);
 
         $I->amStaff();
