@@ -47,7 +47,7 @@ class NewsChannelSearch extends NewsChannel
         $sortOrder = Arr::get($params, 'sort_order', 'ascending');
         $sortOrder = $this->getSortOrder($sortOrder);
 
-        $pageLimit = Arr::get($params, 'limit');
+        $pageLimit = Arr::get($params, 'limit', false);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
