@@ -8,9 +8,9 @@ use yii\rbac\Rule;
 /**
  * Rule containing logic to accept/reject all Usulan/Aspirasi with pending status
  */
-class AcceptRejectAllAspirasiRule extends Rule
+class ApprovalAspirasiRule extends Rule
 {
-    public $name = 'canAcceptRejectAllAspirasi';
+    public $name = 'canApprovalAspirasi';
 
     /**
      * @param string|int $user the user ID.

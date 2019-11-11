@@ -852,7 +852,7 @@ class AspirasiCest
     }
 
     // Aspirasi Approval
-    public function acceptRejectAllAspirasiUnauthorizedTest(ApiTester $I)
+    public function approvalAspirasiUnauthorizedTest(ApiTester $I)
     {
         $I->haveInDatabase('aspirasi', [
             'id'          => 1,

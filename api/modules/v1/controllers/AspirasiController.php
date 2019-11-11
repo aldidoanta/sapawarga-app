@@ -98,7 +98,7 @@ class AspirasiController extends ActiveController
             [
                 'allow'      => true,
                 'actions'    => ['approval'],
-                'roles'      => ['acceptRejectAllAspirasi'],
+                'roles'      => ['approvalAspirasi'],
                 'roleParams' => function ($rule) {
                     return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
                 },

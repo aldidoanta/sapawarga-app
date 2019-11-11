@@ -78,8 +78,8 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
 
     private function createNewPermissionsWebadmin()
     {
-        $acceptRejectAspirasiRule = new Aspirasi\AcceptRejectAllAspirasiRule;
-        $this->_auth->add($acceptRejectAspirasiRule);
+        $approvalAspirasiRule = new Aspirasi\ApprovalAspirasiRule;
+        $this->_auth->add($approvalAspirasiRule);
 
         $viewAllAspirasiPermission              = $this->_auth->createPermission('viewAllAspirasi');
         $viewAllAspirasiPermission->description = 'Mengakses daftar dan detail semua Usulan';
@@ -93,11 +93,11 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $this->_auth->addChild($this->_roleStaffKec, $viewAddressedCascadedAspirasiPermission);
         $this->_auth->addChild($this->_roleStaffKel, $viewAddressedCascadedAspirasiPermission);
 
-        $acceptRejectAllAspirasiPermission              = $this->_auth->createPermission('acceptRejectAllAspirasi');
-        $acceptRejectAllAspirasiPermission->description = 'Menerima/Menolak semua Usulan';
-        $acceptRejectAllAspirasiPermission->ruleName    = $acceptRejectAspirasiRule->name;
-        $this->_auth->add($acceptRejectAllAspirasiPermission);
-        $this->_auth->addChild($this->_roleStaffProv, $acceptRejectAllAspirasiPermission);
+        $approvalAspirasiPermission              = $this->_auth->createPermission('approvalAspirasi');
+        $approvalAspirasiPermission->description = 'Memberikan approval (Publikasi/Tolak) semua Usulan';
+        $approvalAspirasiPermission->ruleName    = $approvalAspirasiRule->name;
+        $this->_auth->add($approvalAspirasiPermission);
+        $this->_auth->addChild($this->_roleStaffProv, $approvalAspirasiPermission);
     }
 
     private function createNewPermissionsMobile()
@@ -187,9 +187,9 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
 
     private function revertcreateNewPermissionsWebadmin()
     {
-        $acceptRejectAllAspirasiPermission = $this->_auth->getPermission('acceptRejectAllAspirasi');
-        $this->_auth->removeChild($this->_roleStaffProv, $acceptRejectAllAspirasiPermission);
-        $this->_auth->remove($acceptRejectAllAspirasiPermission);
+        $approvalAspirasiPermission = $this->_auth->getPermission('approvalAspirasi');
+        $this->_auth->removeChild($this->_roleStaffProv, $approvalAspirasiPermission);
+        $this->_auth->remove($approvalAspirasiPermission);
 
         $viewAddressedCascadedAspirasiPermission = $this->_auth->getPermission('viewAddressedCascadedAspirasi');
         $this->_auth->removeChild($this->_roleStaffKel, $viewAddressedCascadedAspirasiPermission);
@@ -201,8 +201,8 @@ class m191029_103454_edit_rbac_aspirasi extends CustomMigration
         $viewAllAspirasiPermission = $this->_auth->getPermission('viewAllAspirasi');
         $this->_auth->remove($viewAllAspirasiPermission);
 
-        $acceptRejectAspirasiRule = $this->_auth->getRule('canAcceptRejectAllAspirasi');
-        $this->_auth->remove($acceptRejectAspirasiRule);
+        $approvalAspirasiRule = $this->_auth->getRule('canApprovalAspirasi');
+        $this->_auth->remove($approvalAspirasiRule);
     }
 
     private function revertRemoveOldPermissions()
