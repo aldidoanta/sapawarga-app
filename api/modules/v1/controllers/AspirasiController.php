@@ -290,17 +290,4 @@ class AspirasiController extends ActiveController
 
         return $model;
     }
-
-    public function prepareDataProvider()
-    {
-        $userId = Yii::$app->user->getId();
-        $user   = User::findIdentity($userId);
-
-        $search = new AspirasiSearch();
-        $params = Yii::$app->request->getQueryParams();
-
-        $search->user = $user;
-
-        return $search->search($params);
-    }
 }
