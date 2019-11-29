@@ -268,7 +268,6 @@ class AspirasiController extends ActiveController
         $search->user      = $user;
 
         $params = Yii::$app->request->getQueryParams();
-
         return $search->search($params, true);
     }
 
