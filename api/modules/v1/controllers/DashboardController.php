@@ -10,7 +10,7 @@ use yii\filters\auth\CompositeAuth;
 use app\filters\auth\HttpBearerAuth;
 use yii\web\ServerErrorHttpException;
 
-use app\models\DashboardPolling;
+use app\models\PollingDashboard;
 use app\models\AspirasiDashboard;
 use app\models\NewsDashboard;
 
@@ -87,6 +87,7 @@ class DashboardController extends ActiveController
     public function actionAspirasiMostLikes()
     {
         $params = Yii::$app->request->getQueryParams();
+        $params = $this->filterByStaffLocation($params);
 
         $aspirasiMostLikes = new AspirasiDashboard();
 
@@ -96,6 +97,7 @@ class DashboardController extends ActiveController
     public function actionAspirasiCounts()
     {
         $params = Yii::$app->request->getQueryParams();
+        $params = $this->filterByStaffLocation($params);
 
         $aspirasiCounts = new AspirasiDashboard();
 
@@ -105,6 +107,7 @@ class DashboardController extends ActiveController
     public function actionAspirasiCategoryCounts()
     {
         $params = Yii::$app->request->getQueryParams();
+        $params = $this->filterByStaffLocation($params);
 
         $aspirasiCounts = new AspirasiDashboard();
 
@@ -123,8 +126,9 @@ class DashboardController extends ActiveController
     public function actionPollingLatest()
     {
         $params = Yii::$app->request->getQueryParams();
+        $params = $this->filterByStaffLocation($params);
 
-        $pollingLatest = new DashboardPolling();
+        $pollingLatest = new PollingDashboard();
 
         return $pollingLatest->getPollingLatest($params);
     }
@@ -132,9 +136,31 @@ class DashboardController extends ActiveController
     public function actionNewsMostLikes()
     {
         $params = Yii::$app->request->getQueryParams();
+        $params = $this->filterByStaffLocation($params);
 
         $newsMostLikes = new NewsDashboard();
 
         return $newsMostLikes->getNewsMostLikes($params);
+    }
+
+    /**
+     * Filtering dashboard by staff location kab kota
+     *
+     * @return $params
+     */
+    public function filterByStaffLocation($params)
+    {
+        $authUser = Yii::$app->user;
+        $authUserModel = $authUser->identity;
+
+        $authKabKotaId = $authUserModel->kabkota_id;
+        $authKecId = $authUserModel->kec_id;
+        $authKelId = $authUserModel->kel_id;
+
+        if ($authUser->can('staffKabkota')) {
+            $params['kabkota_id'] = $authKabKotaId;
+        }
+
+        return $params;
     }
 }
