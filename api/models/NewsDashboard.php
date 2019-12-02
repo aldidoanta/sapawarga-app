@@ -15,10 +15,8 @@ class NewsDashboard extends News
     /**
      * Creates data provider instance applied to get news most likes per provinsi / kabkota
      *
-     * @param string $params['location']  For separated news provinsi / kabkota, value is only `provinsi` / `kabkota`
      * @param string $params['start_date']  Default value is last two week
      * @param string $params['end_date']  Default value is today
-     * @param string $params['kabkota_id']  Filtering by user kabkota_id
      *
      * @return Query
      */
@@ -27,7 +25,6 @@ class NewsDashboard extends News
         $publicBaseUrl = Yii::$app->params['storagePublicBaseUrl'] . '/';
         $startDate = Arr::get($params, 'start_date', Carbon::now()->subDays(14));
         $endDate = Arr::get($params, 'end_date', Carbon::now());
-        $location = Arr::get($params, 'location');
 
         $query = new Query;
         $query->select([ 'id', 'title', "CONCAT('$publicBaseUrl', cover_path) AS cover_path_url", 'total_viewers'])
@@ -40,15 +37,38 @@ class NewsDashboard extends News
             ->orderBy(['total_viewers' => SORT_DESC])
             ->limit(5);
 
-        // Filtering location
+        $this->filteringByLocation($query, $params);
+
+        return $query->all();
+    }
+
+    /**
+     * Filtering data by location
+     *
+     * @param string $params['location']  For separated news provinsi / kabkota, value is only `provinsi` / `kabkota`
+     * @param string $params['kabkota_id']  Filtering by user kabkota_id
+     *
+     * @return Query
+     */
+    protected function filteringByLocation($query, $params)
+    {
+        $location = Arr::get($params, 'location');
+
+        // Filter for admin and staffprov
         if ($location == 'provinsi') {
             $query->andWhere(['is', 'kabkota_id', null]);
         }
         if ($location == 'kabkota') {
             $query->andWhere(['is not', 'kabkota_id', null]);
         }
-        $query->andFilterWhere(['=', 'kabkota_id', Arr::get($params, 'kabkota_id')]);
 
-        return $query->all();
+        // Filter for staffkabkota
+        if (Arr::get($params, 'kabkota_id') != null) {
+            $query->andWhere(['or',
+                ['kabkota_id' => Arr::get($params, 'kabkota_id')],
+                ['kabkota_id' => null]]);
+        }
+
+        return $query;
     }
 }
