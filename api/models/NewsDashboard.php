@@ -53,6 +53,7 @@ class NewsDashboard extends News
     protected function filteringByLocation($query, $params)
     {
         $location = Arr::get($params, 'location');
+        $kabkotaId = Arr::get($params, 'kabkota_id');
 
         // Filter for admin and staffprov
         if ($location == 'provinsi') {
@@ -63,9 +64,9 @@ class NewsDashboard extends News
         }
 
         // Filter for staffkabkota
-        if (Arr::get($params, 'kabkota_id') != null) {
+        if ($kabkotaId != null) {
             $query->andWhere(['or',
-                ['kabkota_id' => Arr::get($params, 'kabkota_id')],
+                ['kabkota_id' => $kabkotaId],
                 ['kabkota_id' => null]]);
         }
 
