@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: registry.gitlab.com/jdsteam/sapa-warga/sapawarga-app/sapawarga-backend-api:%VERSION%
+          image: registry.gitlab.com/jdsteam/sapa-warga/sapawarga-app/sapawarga-backend-api:v0.1-745-ga0ebf359
           command: ["php", "yii", "queue-import/listen", "--verbose"]
           env:
             - name: MYSQL_HOST
@@ -59,6 +59,73 @@ spec:
                 configMapKeyRef:
                   name: sapawarga-backend-config-env
                   key: CACHE_PORT
+
+            - name: APP_STORAGE_S3_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sapawarga-backend-secret
+                  key: APP_STORAGE_S3_KEY
+            
+            - name: APP_STORAGE_S3_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sapawarga-backend-secret
+                  key: APP_STORAGE_S3_SECRET
+
+            - name: MAILER_TRANSPORT_FILE
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: MAILER_TRANSPORT_FILE
+                  
+            - name: MAILER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: MAILER_HOST
+
+            - name: MAILER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: MAILER_PORT
+            
+            - name: MAILER_FROM_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: MAILER_FROM_EMAIL
+
+            - name: MAILER_FROM_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: MAILER_FROM_NAME
+       
+            - name: APP_STORAGE_S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: APP_STORAGE_S3_BUCKET
+
+            - name: APP_STORAGE_FS
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: APP_STORAGE_FS
+
+            - name: APP_STORAGE_PUBLIC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: APP_STORAGE_PUBLIC_URL
+
+            - name: APP_STORAGE_S3_BUCKET_REGION
+              valueFrom:
+                configMapKeyRef:
+                  name: sapawarga-backend-config-env
+                  key: APP_STORAGE_S3_BUCKET_REGION
+
       imagePullSecrets:
         - name: regcred
       restartPolicy: OnFailure
