@@ -10,7 +10,7 @@ versioning:
   image: alpine:latest
   stage: versioning
   only:
-    - branches
+    -branches
   before_script:
     - apk add git
   script:
@@ -18,7 +18,7 @@ versioning:
     - echo $VERSION
     - echo $VERSION > version
   artifacts:
-    paths:
+  paths:
       - version
 
 code_quality:
