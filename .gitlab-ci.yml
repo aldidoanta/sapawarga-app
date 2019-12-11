@@ -10,7 +10,7 @@ versioning:
   image: alpine:latest
   stage: versioning
   only:
-    -branches
+    - branches
   before_script:
     - apk add git
   script:
