@@ -46,48 +46,22 @@ class AspirasiController extends ActiveController
         $behaviors['access'] = [
             'class' => AccessControl::className(),
             'only'  => ['index', 'view', 'create', 'update', 'delete', 'approval', 'likes', 'me'],
-            'rules' => \array_merge($this->getAdminAndCRUDRules(), $this->getExtraPatternsRules()),
-        ];
-
-        return $behaviors;
-    }
-
-    protected function getAdminAndCRUDRules()
-    {
-        return [
-            [
-                'allow'   => true,
-                'roles'   => ['admin'],
-            ],
-            [
-                'allow'   => true,
-                'actions' => ['index', 'view'],
-                'roles'   => [
-                    'viewAllAspirasi',
-                    'viewAddressedCascadedAspirasi',
-                    'viewPublishedAspirasi'
+            'rules' => [
+                [
+                    'allow'   => true,
+                    'actions' => ['index', 'view', 'create', 'update', 'delete', 'me', 'likes', 'approval'],
+                    'roles'   => ['aspirasiWebadminManage'],
                 ],
-            ],
-            [
-                'allow'   => true,
-                'actions' => ['create'],
-                'roles'   => ['createAspirasi'],
-            ],
-            [
-                'allow'      => true,
-                'actions'    => ['update'],
-                'roles'      => ['editOwnAspirasi'],
-                'roleParams' => function ($rule) {
-                    return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
-                },
-            ],
-            [
-                'allow'   => true,
-                'actions' => ['delete'],
-                'roles'   => ['deleteOwnAspirasi'],
-                'roleParams' => function ($rule) {
-                    return ['aspirasi' => $this->findModel(Yii::$app->request->get('id'))];
-                },
+                [
+                    'allow'   => true,
+                    'actions' => ['index', 'view'],
+                    'roles'   => ['aspirasiWebadminView'],
+                ],
+                [
+                    'allow'   => true,
+                    'actions' => ['index', 'view', 'create', 'update', 'delete', 'me', 'likes'],
+                    'roles'   => ['aspirasiMobile'],
+                ],
             ],
         ];
     }
@@ -123,15 +97,21 @@ class AspirasiController extends ActiveController
     {
         $actions = parent::actions();
 
-        // Override Delete Action
-        unset($actions['delete']);
+        // Override Actions
+        unset($actions['view']);
         unset($actions['create']);
         unset($actions['update']);
+        unset($actions['delete']);
 
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
-        $actions['view']['findModel']            = [$this, 'findModel'];
 
         return $actions;
+    }
+
+    public function actionView($id)
+    {
+        $model = $this->findModel($id, $this->modelClass);
+        return $model;
     }
 
     public function actionCreate()
@@ -157,7 +137,7 @@ class AspirasiController extends ActiveController
 
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $this->modelClass);
 
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
 
@@ -186,14 +166,14 @@ class AspirasiController extends ActiveController
      */
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $this->modelClass);
 
         return $this->applySoftDelete($model);
     }
 
     public function actionApproval($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $this->modelClass);
 
         return $this->processApproval($model);
     }
@@ -237,7 +217,7 @@ class AspirasiController extends ActiveController
         /**
          * @var Aspirasi $model
          */
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $this->modelClass);
 
         $count = (new \yii\db\Query())
             ->from('aspirasi_likes')
@@ -272,21 +252,42 @@ class AspirasiController extends ActiveController
     }
 
     /**
-     * @param $id
-     * @return mixed|Aspirasi
-     * @throws \yii\web\NotFoundHttpException
+     * Checks the privilege of the current user.
+     *
+     * This method should be overridden to check whether the current user has the privilege
+     * to run the specified action against the specified data model.
+     * If the user does not have access, a [[ForbiddenHttpException]] should be thrown.
+     *
+     * @param string $action the ID of the action to be executed
+     * @param object $model the model to be accessed. If null, it means no specific model is being accessed.
+     * @param array $params additional parameters
      */
-    public function findModel($id)
+    public function checkAccess($action, $model = null, $params = [])
     {
-        $model = Aspirasi::find()
-            ->where(['id' => $id])
-            ->andWhere(['!=', 'status', Aspirasi::STATUS_DELETED])
-            ->one();
+        $authUser = Yii::$app->user;
+        $authUserId = $authUser->id;
 
-        if ($model === null) {
-            throw new NotFoundHttpException("Object not found: $id");
+        // Admin and staffprov can update status
+        if ($authUser->can('admin') || $authUser->can('staffProv')) {
+            return true;
         }
 
-        return $model;
+        // Check access update and delete for staffRw
+        if (in_array($action, ['update', 'delete']) && $model->author_id !== Yii::$app->user->getId()) {
+            throw new ForbiddenHttpException(Yii::t('app', 'error.role.permission'));
+        }
+    }
+
+    public function prepareDataProvider()
+    {
+        $userId = Yii::$app->user->getId();
+        $user   = User::findIdentity($userId);
+
+        $search = new AspirasiSearch();
+        $params = Yii::$app->request->getQueryParams();
+
+        $search->user = $user;
+
+        return $search->search($params);
     }
 }
