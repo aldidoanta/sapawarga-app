@@ -12,29 +12,29 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "question".
+ * This is the model class for table "post".
  *
  * @property int $id
  * @property string $text
- * @property bool $is_flagged
+ * @property string $image_path
  * @property int $status
  * @property int $created_by
  * @property int $updated_by
  * @property int $created_at
  * @property int $updated_by
  */
-class Question extends ActiveRecord implements ActiveStatus
+class UserPost extends ActiveRecord implements ActiveStatus
 {
     use HasActiveStatus;
 
-    public $likes_count = 0;
+    public $likes_count;
 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'questions';
+        return 'user_posts';
     }
 
     public function getAuthor()
@@ -44,23 +44,23 @@ class Question extends ActiveRecord implements ActiveStatus
 
     public function getComments()
     {
-        return $this->hasMany(QuestionComment::class, ['question_id' => 'id']);
+        return $this->hasMany(UserPostComment::class, ['user_post_id' => 'id']);
     }
 
     public function getLikes()
     {
         return $this->hasMany(Like::class, ['entity_id' => 'id'])
-                    ->andOnCondition(['type' => Like::TYPE_QUESTION]);
+                    ->andOnCondition(['type' => Like::TYPE_USER_POST]);
     }
 
-    public function getLastAnswer()
+    public function getLastComment()
     {
-        return QuestionComment::findOne($this->answer_id);
+        return UserPostComment::findOne($this->last_user_post_comment_id);
     }
 
     public function getIsUserLiked()
     {
-        return ModelHelper::getIsUserLiked($this->id, Like::TYPE_QUESTION);
+        return ModelHelper::getIsUserLiked($this->id, Like::TYPE_USER_POST);
     }
 
     /**
@@ -74,11 +74,10 @@ class Question extends ActiveRecord implements ActiveStatus
 
             [['text'], 'trim'],
             [['text'], 'safe'],
-            [['text', 'status'],'required'],
+            [['text', 'status', 'image_path'],'required'],
 
-            [['status', 'answer_id', 'is_flagged'], 'integer'],
+            [['status', 'last_user_post_comment_id'], 'integer'],
             ['status', 'in', 'range' => [-1, 0, 10]],
-            ['is_flagged', 'in', 'range' => [0, 1]],
         ];
     }
 
@@ -87,16 +86,19 @@ class Question extends ActiveRecord implements ActiveStatus
         $fields = [
             'id',
             'text',
+            'image_path_full' => function () {
+                $publicBaseUrl = Yii::$app->params['storagePublicBaseUrl'];
+                return "{$publicBaseUrl}/{$this->image_path}";
+            },
             'likes_count',
             'comments_count' => 'CommentsCount',
-            'answer_id',
-            'answer' => 'lastAnswer',
+            'last_user_post_comment_id',
+            'last_comment' => 'lastComment',
             'status',
             'status_label' => 'StatusLabel',
             'created_at',
             'updated_at',
             'created_by',
-            'is_flagged',
             'is_liked' => 'IsUserLiked',
             'user' => 'AuthorField',
         ];
@@ -111,7 +113,8 @@ class Question extends ActiveRecord implements ActiveStatus
     {
         return [
             'id' => 'ID',
-            'text' => 'Pertanyaan',
+            'text' => 'Deskripsi',
+            'image_path' => 'Photo',
             'status' => 'Status',
         ];
     }
@@ -153,6 +156,9 @@ class Question extends ActiveRecord implements ActiveStatus
             'name' => $this->author->name,
             'photo_url_full' => $this->author->photo_url ? "$publicBaseUrl/{$this->author->photo_url}" : null,
             'role_label' => $this->author->getRoleName(),
+            'kabkota' => isset($this->author->kabkota->name) ? $this->author->kabkota->name : null,
+            'kelurahan' => isset($this->author->kelurahan->name) ? $this->author->kelurahan->name : null,
+            'kecamatan' => isset($this->author->kecamatan->name) ? $this->author->kecamatan->name : null,
         ];
     }
 }

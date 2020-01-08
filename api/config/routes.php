@@ -255,8 +255,16 @@ return [
             'OPTIONS aspirasi-geo' => 'options',
             'GET polling-latest' => 'polling-latest',
             'OPTIONS polling-latest' => 'options',
+            'GET polling-counts' => 'polling-counts',
+            'OPTIONS polling-counts' => 'options',
+            'GET polling-participation' => 'polling-participation',
+            'OPTIONS polling-participation' => 'options',
             'GET news-most-likes' => 'news-most-likes',
             'OPTIONS news-most-likes' => 'options',
+            'GET videos-most-views' => 'videos-most-views',
+            'OPTIONS videos-most-views' => 'options',
+            'GET users-leaderboard' => 'users-leaderboard',
+            'OPTIONS users-leaderboard' => 'options',
         ]
     ],
     [
@@ -342,5 +350,21 @@ return [
         'class' => UrlRule::class,
         'controller' => ['comments' => 'v1/question-comment'],
         'prefix' => 'v1/questions/<questionId:\d+>',
+    ],
+    [
+        'class' => UrlRule::class,
+        'controller' => 'v1/user-post',
+        'tokens' => [
+            '{id}' => '<id:\d+>',
+        ],
+        'extraPatterns' => [
+            'POST likes/{id}' => 'likes',
+            'OPTIONS likes/{id}' => 'options',
+        ]
+    ],
+    [
+        'class' => UrlRule::class,
+        'controller' => ['comments' => 'v1/user-post-comment'],
+        'prefix' => 'v1/user-posts/<userPostId:\d+>',
     ],
 ];

@@ -31,7 +31,7 @@ class QuestionCommentController extends ActiveController
                 [
                     'allow'   => true,
                     'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                    'roles'   => ['admin', 'staffProv'],
+                    'roles'   => ['admin', 'pimpinan', 'staffProv'],
                 ],
                 [
                     'allow'   => true,
@@ -97,7 +97,8 @@ class QuestionCommentController extends ActiveController
     {
         $authUser = Yii::$app->user;
 
-        if ($authUser->can('admin')) {
+        // Admin, staffprov can do everything
+        if ($authUser->can('admin') || $authUser->can('staffProv')) {
             return true;
         }
 

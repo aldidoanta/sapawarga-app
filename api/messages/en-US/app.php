@@ -40,9 +40,12 @@ return [
     'error.image.invalid_format' => 'The file "{file}" is not an image.',
     'error.image.should_exact' => 'Image "{file}" should have size {width, number}x{height, number} pixel.',
 
+    'role.service_account' => 'Service Account',
     'role.admin' => 'Administrator',
+    'role.pimpinan' => 'Leader',
     'role.staffProv' => 'Staff Provinsi',
     'role.staffSaberhoax' => 'Staff Saber Hoaks',
+    'role.staffOPD' => 'Staff OPD',
     'role.staffKabkota' => 'Staff Kabupaten/Kota',
     'role.staffKec' => 'Staff Kecamatan',
     'role.staffKel' => 'Staff Desa/Kelurahan',
