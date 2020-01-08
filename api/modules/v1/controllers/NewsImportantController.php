@@ -2,18 +2,13 @@
 
 namespace app\modules\v1\controllers;
 
-use app\filters\auth\HttpBearerAuth;
-use app\models\User;
 use app\models\NewsImportant;
 use app\models\NewsImportantSearch;
 use app\models\NewsImportantAttachment;
-use Illuminate\Support\Arr;
 use Yii;
 use yii\filters\AccessControl;
-use yii\filters\auth\CompositeAuth;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
-use yii\web\ServerErrorHttpException;
 use yii\web\ForbiddenHttpException;
 
 /**
@@ -128,17 +123,22 @@ class NewsImportantController extends ActiveController
     public function actionUpdate($id)
     {
         $model = NewsImportant::findOne($id);
+        $params = Yii::$app->getRequest()->getBodyParams();
 
         if (empty($model)) {
             throw new NotFoundHttpException("Object not found: $id");
         }
 
-        $params = Yii::$app->request->getQueryParams();
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $this->checkAccess('update', $model, $id);
+
+        $model->load($params, '');
 
         if ($model->validate() && $model->save()) {
-            $this->prepareDeleteAttachment($model->id);
-            $this->prepareSaveAttachment($model->id);
+            // Delete first when send attachment
+            if (isset($params['attachments'])) {
+                $this->prepareDeleteAttachment($model->id);
+                $this->prepareSaveAttachment($model->id);
+            }
 
             $response = Yii::$app->getResponse();
             $response->setStatusCode(200);
@@ -181,6 +181,14 @@ class NewsImportantController extends ActiveController
      */
     public function checkAccess($action, $model = null, $params = [])
     {
+        $authUser = Yii::$app->user;
+        $authUserId = $authUser->id;
+
+        // Admin can do everything
+        if ($authUser->can('admin')) {
+            return true;
+        }
+
         if ($action === 'update' || $action === 'delete') {
             if ($model->created_by !== \Yii::$app->user->id) {
                 throw new ForbiddenHttpException(Yii::t('app', 'error.role.permission'));
@@ -223,7 +231,7 @@ class NewsImportantController extends ActiveController
      */
     private function saveAttachment($newsImportantId, $val)
     {
-        if (!empty($val['file_path'])) {
+        if (! empty($val['file_path'])) {
             $model = new NewsImportantAttachment();
             $model->news_important_id = $newsImportantId;
             $model->file_path = $val['file_path'];

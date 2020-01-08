@@ -44,6 +44,20 @@ class AspirasiDashboardCest
         ]);
     }
 
+    public function getAccessAspirasiMostLikePimpinanTest(ApiTester $I)
+    {
+        $I->amStaff('gubernur');
+
+        $I->sendGET('/v1/dashboards/aspirasi-most-likes');
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
+    }
+
     public function getAccessAspirasiMostLikeStaffKecFailTest(ApiTester $I)
     {
         $I->amStaff('staffkec');
@@ -252,6 +266,20 @@ class AspirasiDashboardCest
         $I->assertEquals('TAMANSARI', $data[0][0]['name']);
         $I->assertEquals(2, $data[0][0]['counts']);
         $I->assertEquals(6178, $data[0][0]['id']);
+    }
+
+    public function getAspirasiCountByMonthTest(ApiTester $I)
+    {
+        $I->amStaff('gubernur');
+
+        $I->sendGET('/v1/dashboards/aspirasi-counts?current_month=true');
+        $I->canSeeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'success' => true,
+            'status'  => 200,
+        ]);
     }
 
      public function _after(ApiTester $I)
